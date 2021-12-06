@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "jquery": "^3.6.0",
+    "lodash-ts": "^1.2.7",
     "sanitize-html": "^2.6.0"
   }
 }
