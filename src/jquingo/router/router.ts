@@ -1,10 +1,10 @@
 import { ObservableValue } from "../observable_value";
-import { Route } from "./route";
+import { jQuingoRoute } from "./route";
 import * as $ from "jquery";
 
-export class Router {
-  private routes: Route[] = [];
-  public current_route: ObservableValue<Route> = new ObservableValue(
+export class jQuingoRouter {
+  private routes: jQuingoRoute[] = [];
+  public current_route: ObservableValue<jQuingoRoute> = new ObservableValue(
     this.routes[0]
   );
 
@@ -18,7 +18,7 @@ export class Router {
     return this.setRoute(path);
   }
 
-  public addRoute(route: Route): boolean {
+  public addRoute(route: jQuingoRoute): boolean {
     if (this.pathExists(route.path)) return false;
     this.routes.push(route);
     return true;
@@ -28,7 +28,7 @@ export class Router {
     if (!this.pathExists(path)) return false;
     this.routes.splice(
       this.routes.indexOf(
-        this.routes.find((_route) => _route.path === path) as Route
+        this.routes.find((_route) => _route.path === path) as jQuingoRoute
       ),
       1
     );
@@ -38,13 +38,13 @@ export class Router {
   public setRoute(path: string): boolean {
     if (!this.pathExists(path)) return false;
     this.current_route.set(
-      this.routes.find((_route) => _route.path === path) as Route
+      this.routes.find((_route) => _route.path === path) as jQuingoRoute
     );
     return true;
   }
 }
 
-export const router: Router = new Router();
+export const router: jQuingoRouter = new jQuingoRouter();
 
 // Called when the user is going back and forth the browser session history
 $(window).on({

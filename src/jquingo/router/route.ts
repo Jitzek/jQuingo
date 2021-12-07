@@ -1,7 +1,9 @@
-import { jQuingoComponentNode } from "../component/component_node";
+import { jQuingoComponent } from "../component/component";
+import { router } from "./router";
 
-export class Route extends jQuingoComponentNode {
+export class jQuingoRoute extends jQuingoComponent {
   constructor(public path: string) {
-    super('div', {});
+    super();
+    router.addRoute(this);
   }
 }
