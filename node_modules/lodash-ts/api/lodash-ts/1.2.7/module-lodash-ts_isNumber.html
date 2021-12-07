@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Documentation Module: lodash-ts/isNumber</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cerulean.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">Documentation</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-lodash-ts_clone.html">lodash-ts/clone</a></li><li><a href="module-lodash-ts_isFunction.html">lodash-ts/isFunction</a></li><li><a href="module-lodash-ts_isNumber.html">lodash-ts/isNumber</a></li><li><a href="module-lodash-ts_isString.html">lodash-ts/isString</a></li><li><a href="module-lodash-ts_toArray.html">lodash-ts/toArray</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#_mixin_1">_mixin_1</a></li><li><a href="global.html#argsTag">argsTag</a></li><li><a href="global.html#baseHasIn">baseHasIn</a></li><li><a href="global.html#baseIsEqualDeep">baseIsEqualDeep</a></li><li><a href="global.html#baseKeys">baseKeys</a></li><li><a href="global.html#baseKeysIn">baseKeysIn</a></li><li><a href="global.html#boolTag">boolTag</a></li><li><a href="global.html#Buffer">Buffer</a></li><li><a href="global.html#dateTag">dateTag</a></li><li><a href="global.html#DEFAULT_TRUNC_LENGTH">DEFAULT_TRUNC_LENGTH</a></li><li><a href="global.html#enumerate">enumerate</a></li><li><a href="global.html#errorTag">errorTag</a></li><li><a href="global.html#escapeHtmlChar">escapeHtmlChar</a></li><li><a href="global.html#freeExports">freeExports</a></li><li><a href="global.html#freeModule">freeModule</a></li><li><a href="global.html#freeParseInt">freeParseInt</a></li><li><a href="global.html#funcTag">funcTag</a></li><li><a href="global.html#funcToString">funcToString</a></li><li><a href="global.html#hasOwnProperty">hasOwnProperty</a></li><li><a href="global.html#INFINITY">INFINITY</a></li><li><a href="global.html#intersection">intersection</a></li><li><a href="global.html#isIdentical">isIdentical</a></li><li><a href="global.html#isMaskable">isMaskable</a></li><li><a href="global.html#iteratorSymbol">iteratorSymbol</a></li><li><a href="global.html#LARGE_ARRAY_SIZE">LARGE_ARRAY_SIZE</a></li><li><a href="global.html#MAX_SAFE_INTEGER">MAX_SAFE_INTEGER</a></li><li><a href="global.html#moduleExports">moduleExports</a></li><li><a href="global.html#NAN">NAN</a></li><li><a href="global.html#nonEnumShadows">nonEnumShadows</a></li><li><a href="global.html#numberTag">numberTag</a></li><li><a href="global.html#objectCtorString">objectCtorString</a></li><li><a href="global.html#objectProto">objectProto</a></li><li><a href="global.html#objectTag">objectTag</a></li><li><a href="global.html#objectToString">objectToString</a></li><li><a href="global.html#partial">partial</a></li><li><a href="global.html#propertyIsEnumerable">propertyIsEnumerable</a></li><li><a href="global.html#range">range</a></li><li><a href="global.html#reBasicWord">reBasicWord</a></li><li><a href="global.html#reComboMark">reComboMark</a></li><li><a href="global.html#reComplexWord">reComplexWord</a></li><li><a href="global.html#reEscapedHtml">reEscapedHtml</a></li><li><a href="global.html#reFlags">reFlags</a></li><li><a href="global.html#regexpTag">regexpTag</a></li><li><a href="global.html#reHasComplexWord">reHasComplexWord</a></li><li><a href="global.html#reIsBadHex">reIsBadHex</a></li><li><a href="global.html#reIsBinary">reIsBinary</a></li><li><a href="global.html#reIsOctal">reIsOctal</a></li><li><a href="global.html#reLatin1">reLatin1</a></li><li><a href="global.html#reRegExpChar">reRegExpChar</a></li><li><a href="global.html#reTrim">reTrim</a></li><li><a href="global.html#reUnescapedHtml">reUnescapedHtml</a></li><li><a href="global.html#rsApos">rsApos</a></li><li><a href="global.html#rsAstralRange">rsAstralRange</a></li><li><a href="global.html#rsCombo">rsCombo</a></li><li><a href="global.html#rsComboMarksRange">rsComboMarksRange</a></li><li><a href="global.html#rsLowerMisc">rsLowerMisc</a></li><li><a href="global.html#stringTag">stringTag</a></li><li><a href="global.html#symbolProto">symbolProto</a></li><li><a href="global.html#typedArrayTags">typedArrayTags</a></li><li><a href="global.html#UNORDERED_COMPARE_FLAG">UNORDERED_COMPARE_FLAG</a></li><li><a href="global.html#uuid">uuid</a></li><li><a href="global.html#weakSetTag">weakSetTag</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Module: lodash-ts/isNumber</h1>
+<section>
+
+<header>
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="-_.html#.isNumber">_.isNumber</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+        
+            <h3>Example</h3>
+            
+    <pre class="sunlight-highlight-javascript">import isNumber from &#x27;lodash-ts/isNumber&#x27;;
+isNumber(3);
+// =&gt; true
+
+isNumber(Number.MIN_VALUE);
+// =&gt; true
+
+isNumber(Infinity);
+// =&gt; true
+
+isNumber(&#x27;3&#x27;);
+// =&gt; false</pre>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Module: lodash-ts/isNumber</h1>
+<section>
+
+<header>
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="-_.html#.isNumber">_.isNumber</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+        
+            <h3>Example</h3>
+            
+    <pre class="sunlight-highlight-javascript">import isNumber from &#x27;lodash-ts/isNumber&#x27;;
+isNumber(3);
+// =&gt; true
+
+isNumber(Number.MIN_VALUE);
+// =&gt; true
+
+isNumber(Infinity);
+// =&gt; true
+
+isNumber(&#x27;3&#x27;);
+// =&gt; false</pre>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Module: lodash-ts/isNumber</h1>
+<section>
+
+<header>
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see method-doc-label method-doc-details-label">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><a href="-_.html#.isNumber">_.isNumber</a></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+
+        
+            <h3>Example</h3>
+            
+    <pre class="sunlight-highlight-javascript">import isNumber from &#x27;lodash-ts/isNumber&#x27;;
+isNumber(3);
+// =&gt; true
+
+isNumber(Number.MIN_VALUE);
+// =&gt; true
+
+isNumber(Infinity);
+// =&gt; true
+
+isNumber(&#x27;3&#x27;);
+// =&gt; false</pre>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on August 18th 2018, 9:31:31 am
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
