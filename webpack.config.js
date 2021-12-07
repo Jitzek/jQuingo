@@ -73,6 +73,8 @@ module.exports = {
   },
   resolve: {
     alias: {
+      '@src': path.resolve(__dirname, 'src'),
+      '@jquingo': path.resolve(__dirname, 'src', 'jquingo'),
       '@components': path.resolve(__dirname, 'src', 'components'),
       '@routes': path.resolve(__dirname, 'src', 'routes'),
       '@css': path.resolve(__dirname, 'static', 'css'),

@@ -5,6 +5,8 @@ import { clone } from "lodash";
 
 export class jQuingoTextNode implements jQuingoNode {
   public prev!: jQuingoNode;
+  public rendered = false;
+
   constructor(public value: string) {}
 
   public render(container: HTMLElement): void {

@@ -10,6 +10,7 @@ export class jQuingoComponentNode implements jQuingoNode {
   public type: string;
   public props: { [key: string]: string };
   public children: Array<jQuingoNode>;
+  public rendered = false;
   /**
    *
    * @param type
@@ -72,10 +73,16 @@ export class jQuingoComponentNode implements jQuingoNode {
 
     $(container).append(this.element);
 
+    this.rendered = true;
+    this.children.forEach(child => child.rendered = true);
+
     this.prev = clone(this);
   }
 
   public update(container: HTMLElement): void {
+    if (!this.rendered) {
+      this.render(container);
+    }
     if (
       !(this.prev instanceof jQuingoComponentNode) ||
       this.type !== this.prev.type

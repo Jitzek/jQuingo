@@ -16,6 +16,8 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
+      "@src/*": ["src/*"],
+      "@jquingo/*": ["src/jquingo/*"],
       "@components/*": ["src/components/*"],
       "@routes/*": ["src/routes/*"],
       "@css/*": ["static/css/*"],
