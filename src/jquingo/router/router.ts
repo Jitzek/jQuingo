@@ -3,13 +3,14 @@ import { jQuingoRoute } from "./route";
 import * as $ from "jquery";
 
 export class jQuingoRouter {
-  private routes: jQuingoRoute[] = [];
+  // Save the path as string and jQuingoRoute as typeof so we can easily construct and destruct routes
+  private routes: {[key: string]: typeof jQuingoRoute} = {}
   public current_route: ObservableValue<jQuingoRoute> = new ObservableValue(
-    this.routes[0]
+    new jQuingoRoute('/')
   );
 
   public pathExists(path: string): boolean {
-    return this.routes.find((_route) => _route.path === path) !== undefined;
+    return this.routes[path] !== undefined;
   }
 
   public routeTo(route: string): boolean {
@@ -18,27 +19,25 @@ export class jQuingoRouter {
     return this.setRoute(path);
   }
 
-  public addRoute(route: jQuingoRoute): boolean {
-    if (this.pathExists(route.path)) return false;
-    this.routes.push(route);
+  public addRoute(path: string, route: typeof jQuingoRoute): boolean {
+    if (this.pathExists(path)) return false;
+    this.routes[path] = route;
     return true;
   }
 
   public removeRoute(path: string): boolean {
     if (!this.pathExists(path)) return false;
-    this.routes.splice(
-      this.routes.indexOf(
-        this.routes.find((_route) => _route.path === path) as jQuingoRoute
-      ),
-      1
-    );
+    delete this.routes[path];
     return true;
   }
 
   public setRoute(path: string): boolean {
     if (!this.pathExists(path)) return false;
     this.current_route.set(
-      this.routes.find((_route) => _route.path === path) as jQuingoRoute
+      // Instantiate the route with a certain path and set it as current route
+      // This will destruct the previous route so it will be reinstantiated when we return
+      // (instead of lingering in memory)
+      new this.routes[path](path)
     );
     return true;
   }

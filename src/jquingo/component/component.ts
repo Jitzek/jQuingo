@@ -25,6 +25,8 @@ export class jQuingoComponent {
     }
     if (this.nodes.length < 1) {
       // Only render if things have changed
+      // TODO: selective rendering, only re-render stuff that has changed
+      // Perhaps update the existing nodes instead of recreating them causing their {prev} to be lost
       this.nodes = jQuingo.createNode(new_template, undefined);
     }
     return this.nodes;

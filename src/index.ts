@@ -9,7 +9,7 @@ const jquingo = new jQuingo();
 jquingo.renderLoop(document.body);
 
 // Dependency of App
-new RootRoute();
+router.addRoute('/', RootRoute);
 
 // Additional routes
-new HomeRoute();
+router.addRoute('/home', HomeRoute);
