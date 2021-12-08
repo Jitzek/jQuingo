@@ -31,7 +31,6 @@ export class jQuingoTextNode implements jQuingoNode {
     }
     // Check if value hasn't changed
     if (this.value !== this.prev.value) {
-      console.log("hello");
       $(container)
         .contents()
         .replaceWith(

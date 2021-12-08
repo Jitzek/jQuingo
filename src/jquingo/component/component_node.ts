@@ -10,6 +10,8 @@ export class jQuingoComponentNode implements jQuingoNode {
   public type: string;
   public props: { [key: string]: string };
   public children: Array<jQuingoNode>;
+
+  public test = 0;
   /**
    *
    * @param type
@@ -24,7 +26,12 @@ export class jQuingoComponentNode implements jQuingoNode {
    *    </div>
    * </div>
    * ^ translates v
-   * jQuingoComponent:cloneDeep
+   * jQuingoComponent:
+   * {
+   *    type: "div",
+   *    props: {
+   *      class: "container"
+   *    },
    *    children: [
    *      {
    *        type: "h1"

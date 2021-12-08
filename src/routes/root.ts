@@ -14,7 +14,7 @@ export class RootRoute extends jQuingoRoute {
   public override template(): string {
     return `
       <div>
-        <h1>${this.test_component.template()}</h1>
+        ${this.test_component.template()}
         <a href="/home">Go to Home</a>
       </div>
     `;
