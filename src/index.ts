@@ -1,5 +1,4 @@
 import { jQuingo } from "./jquingo/jQuingo";
-import { jQuingoRoute } from "./jquingo/router/route";
 import { router } from "./jquingo/router/router";
 import { HomeRoute } from "./routes/home";
 import { RootRoute } from "./routes/root";

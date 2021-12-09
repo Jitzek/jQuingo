@@ -21,8 +21,10 @@ export class TestComponent extends jQuingoComponent {
 
     public override template(): string {
         return `
-            <h1>${this.title}</h1>
-            <p>${this.description} counter: ${this.counter} ${this.counter === 1 ? 'second' : 'seconds'}</p>
+            <div>
+                <h1>${this.title}</h1>
+                <p>${this.description} counter: ${this.counter} ${this.counter === 1 ? 'second' : 'seconds'}</p>
+            </div>
         `;
     }
 }

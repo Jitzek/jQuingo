@@ -1,6 +1,10 @@
 h1 {
     color: pink;
-    animation: slide 4s infinite;
+    animation: slide 4s infinite alternate;
+}
+
+p {
+    animation: slide 4s infinite alternate;
 }
 
 @keyframes slide {

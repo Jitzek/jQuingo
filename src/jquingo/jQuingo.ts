@@ -37,13 +37,18 @@ export class jQuingo {
     return nodes;
   }
 
+  /**
+   * Compare current nodes with new nodes and update only what has changed without altering other data
+   * 
+   * @param nodes The current nodes
+   * @param new_nodes The new nodes (likely gotten from {jQuingo.createNodes})
+   * @returns The current nodes with updated data gotten from the new nodes
+   */
   public static updateNodes(nodes: jQuingoNode[], new_nodes: jQuingoNode[]): jQuingoNode[] {
-    // Step 1: Determine what has changed
     for (let i = 0; i < nodes.length || i < new_nodes.length; i++) {
       if (!nodes[i]) {
         // Node was added
-        nodes.push(new_nodes[i]);
-        console.log(nodes);
+        nodes[i] = new_nodes[i];
       }
       if (!new_nodes[i]) {
         // Node was removed
@@ -63,7 +68,6 @@ export class jQuingo {
         else if (new_node instanceof jQuingoTextNode) {
           // Replace component node with text node
           nodes[i] = new_node;
-          // nodes[i].prev = node;
         }
       }
       else if (node instanceof jQuingoTextNode) {
@@ -74,14 +78,9 @@ export class jQuingo {
         else if (new_node instanceof jQuingoComponentNode) {
           // Replace text node with component node
           nodes[i] = new_node;
-          // nodes[i].prev = node;
         }
       }
     }
-
-    // Step 2: Determine how to change it
-
-    // Step 3: Change it
 
     return nodes;
   }

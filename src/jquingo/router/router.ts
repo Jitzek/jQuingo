@@ -1,6 +1,7 @@
 import { ObservableValue } from "../observable_value";
 import { jQuingoRoute } from "./route";
 import * as $ from "jquery";
+import { cloneDeep } from "lodash";
 
 export class jQuingoRouter {
   // Save the path as string and jQuingoRoute as typeof so we can easily construct and destruct routes
