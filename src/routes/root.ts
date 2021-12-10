@@ -13,10 +13,13 @@ export class RootRoute extends jQuingoRoute {
 
   public override template(): string {
     return `
-      <div>
+      <div class="container">
         ${this.test_component.template()}
         <a href="/home">Go to Home</a>
       </div>
+      <pre>
+        <h2>Hello World</h2>
+      </pre>
     `;
   }
 }

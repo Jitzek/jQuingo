@@ -2,13 +2,14 @@ import { jQuingoNode } from "./node";
 import * as $ from "jquery";
 import { jQuingoTextNode } from "./text_node";
 import { clone } from "lodash";
+import { jQuingoEventHandler } from "../jQuingo";
 
 export class jQuingoComponentNode implements jQuingoNode {
   public prev!: jQuingoNode;
   public prev_children: Array<jQuingoNode> = [];
   public element!: HTMLElement;
   public type: string;
-  public props: { [key: string]: string };
+  public props: { [key: string]: any };
   public children: Array<jQuingoNode>;
 
   public test = 0;
@@ -71,7 +72,13 @@ export class jQuingoComponentNode implements jQuingoNode {
   public render(container: HTMLElement): void {
     this.element = document.createElement(this.type);
 
-    $(this.element).attr(this.props);
+    for (const key in this.props) {
+      if (key.startsWith('on')) {
+        $(this.element).on(key.slice(2), (e: Event) => jQuingoEventHandler.callbacks[this.props[key]](e));
+        continue;
+      }
+      $(this.element).prop(key, this.props[key]);
+    }
 
     this.children.forEach((component) => {
       component.render(this.element);
@@ -94,7 +101,27 @@ export class jQuingoComponentNode implements jQuingoNode {
     }
 
     // Update properties of element
-    $(this.element).attr(this.props);
+    const props_keys = Object.keys(this.props);
+    
+    for (let i = 0; i < props_keys.length || i < this.element.attributes.length; i++) {
+      if (!props_keys[i]) {
+        // Prop has been removed
+        $(this.element).removeAttr(this.props[props_keys[i]]);
+        continue;
+      }
+      if (this.element.hasAttribute(props_keys[i])) {
+        // Prop already exists, update value
+        this.element.attributes[i].nodeValue = this.props[props_keys[i]];
+        continue;
+      }
+      if (!this.element.attributes[i]) {
+        // Prop has been added
+        if (props_keys[i].startsWith('on')) {
+          $(this.element).on(props_keys[i].slice(2), (e: Event) => jQuingoEventHandler.callbacks[this.props[props_keys[i]]](e));
+          continue
+        }
+      }
+    }
 
     // Check whether the children's order/types have changed
     for (
@@ -116,6 +143,11 @@ export class jQuingoComponentNode implements jQuingoNode {
         ) {
           this.reload();
         }
+      }
+
+      if (!this.children[i]) {
+        // Child has been removed
+        this.prev_children[i].remove();
       }
 
       // Update child

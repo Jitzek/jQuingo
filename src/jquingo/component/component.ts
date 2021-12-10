@@ -6,7 +6,6 @@ export class jQuingoComponent {
   private _prev_template: string = "";
 
   constructor() {
-    this.nodes = [];
     this.init();
   }
 
