@@ -3,7 +3,7 @@ import "@css/test.css";
 import {
   jQuingoEventHandler,
   jQuingoEventHandlerFunction,
-} from "@src/jquingo/jQuingo";
+} from "@src/jquingo/events/event_handler";
 
 export class TestComponent extends jQuingoComponent {
   private counter = 0;

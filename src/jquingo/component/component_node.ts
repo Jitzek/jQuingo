@@ -1,7 +1,7 @@
 import { jQuingoNode } from "./node";
 import * as $ from "jquery";
 import { clone } from "lodash";
-import { jQuingoEventHandler } from "../jQuingo";
+import { jQuingoEventHandler } from "@src/jquingo/events/event_handler";
 
 export class jQuingoComponentNode implements jQuingoNode {
   public prev!: jQuingoNode;
@@ -10,8 +10,6 @@ export class jQuingoComponentNode implements jQuingoNode {
   public type: string;
   public props: { [key: string]: any };
   public children: Array<jQuingoNode>;
-
-  public test = 0;
   /**
    *
    * @param type

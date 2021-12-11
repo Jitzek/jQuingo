@@ -4,15 +4,6 @@ import { jQuingoTextNode } from "./component/text_node";
 import * as $ from "jquery";
 import { app } from "@src/App";
 
-export declare type jQuingoEventHandlerFunction = string;
-export class jQuingoEventHandler {
-  public static callbacks: ((e: Event) => void)[] = [];
-
-  public static on(callback: (e: Event) => void) {
-    return `${this.callbacks.push(callback) - 1}`;
-  }
-}
-
 export class jQuingo {
   public static createNodes(_html?: string, _element?: Element): jQuingoNode[] {
     // Get parent of given template or use the given element as parent
