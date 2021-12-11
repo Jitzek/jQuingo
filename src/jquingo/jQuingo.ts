@@ -105,7 +105,6 @@ export class jQuingo {
   }
 
   public renderLoop(container: HTMLElement) {
-    console.log(app.render());
     app.render().forEach((node) => {
       node.update(container);
     });

@@ -1,6 +1,5 @@
 import { jQuingoNode } from "./node";
 import * as $ from "jquery";
-import { jQuingoTextNode } from "./text_node";
 import { clone } from "lodash";
 import { jQuingoEventHandler } from "../jQuingo";
 
@@ -72,13 +71,16 @@ export class jQuingoComponentNode implements jQuingoNode {
   public render(container: HTMLElement): void {
     this.element = document.createElement(this.type);
 
-    for (const key in this.props) {
-      if (key.startsWith('on')) {
-        $(this.element).on(key.slice(2), (e: Event) => jQuingoEventHandler.callbacks[this.props[key]](e));
-        continue;
-      }
-      $(this.element).prop(key, this.props[key]);
-    }
+    // for (const key in this.props) {
+    //   if (key.startsWith("on")) {
+    //     $(this.element).on(key.slice(2), (e: Event) =>
+    //       jQuingoEventHandler.callbacks[this.props[key]](e)
+    //     );
+    //     continue;
+    //   }
+    //   $(this.element).prop(key, this.props[key]);
+    // }
+    this.updateAttributes(this.element, this.props);
 
     this.children.forEach((component) => {
       component.render(this.element);
@@ -101,27 +103,7 @@ export class jQuingoComponentNode implements jQuingoNode {
     }
 
     // Update properties of element
-    const props_keys = Object.keys(this.props);
-    
-    for (let i = 0; i < props_keys.length || i < this.element.attributes.length; i++) {
-      if (!props_keys[i]) {
-        // Prop has been removed
-        $(this.element).removeAttr(this.props[props_keys[i]]);
-        continue;
-      }
-      if (this.element.hasAttribute(props_keys[i])) {
-        // Prop already exists, update value
-        this.element.attributes[i].nodeValue = this.props[props_keys[i]];
-        continue;
-      }
-      if (!this.element.attributes[i]) {
-        // Prop has been added
-        if (props_keys[i].startsWith('on')) {
-          $(this.element).on(props_keys[i].slice(2), (e: Event) => jQuingoEventHandler.callbacks[this.props[props_keys[i]]](e));
-          continue
-        }
-      }
-    }
+    this.updateAttributes(this.element, this.props);
 
     // Check whether the children's order/types have changed
     for (
@@ -129,24 +111,24 @@ export class jQuingoComponentNode implements jQuingoNode {
       i < this.children.length || i < this.prev_children.length;
       i++
     ) {
-      if (this.children[i] && this.prev_children[i]) {
-        // TODO: Please find a way to refactor this mess
-        if (
-          (this.children[i] instanceof jQuingoComponentNode &&
-            this.prev_children[i] instanceof jQuingoComponentNode &&
-            (this.children[i] as jQuingoComponentNode).type !==
-              (this.prev_children[i] as jQuingoComponentNode).type) ||
-          (this.children[i] instanceof jQuingoTextNode &&
-            this.prev_children[i] instanceof jQuingoTextNode &&
-            (this.children[i] as jQuingoTextNode).value !==
-              (this.prev_children[i] as jQuingoTextNode).value)
-        ) {
-          this.reload();
-        }
-      }
+      // Seems unnecessary? Should be handled by calling update on child
+      // if (this.children[i] && this.prev_children[i]) {
+      //   const child = this.children[i];
+      //   const prev_child = this.prev_children[i];
+      //   if (
+      //     (child instanceof jQuingoComponentNode &&
+      //       prev_child instanceof jQuingoComponentNode &&
+      //       child.type !== prev_child.type) ||
+      //     (child instanceof jQuingoTextNode &&
+      //       prev_child instanceof jQuingoTextNode &&
+      //       child.value !== prev_child.value)
+      //   ) {
+      //     this.reload();
+      //   }
+      // }
 
       if (!this.children[i]) {
-        // Child has been removed
+        // Child has been removed, so remove from UI aswell
         this.prev_children[i].remove();
       }
 
@@ -162,16 +144,62 @@ export class jQuingoComponentNode implements jQuingoNode {
     this.prev_children = clone(this.children);
   }
 
+  /**
+   * Removes element from UI
+   */
   public remove() {
     $(this.element).remove();
   }
 
+  /**
+   * Removes and replaces element using current settings
+   */
   private reload() {
     // Create a new element and override the existing element with this new element
-    const new_element: HTMLElement = document.createElement(this.type);
+    let new_element: HTMLElement = document.createElement(this.type);
+    // Set properties
+    this.updateAttributes(new_element, this.props);
     // Render children to new element
     this.children.forEach((child) => child.render(new_element));
     $(this.element).replaceWith(new_element);
     this.element = new_element;
+  }
+
+  /**
+   * Adds, Updates or Removes attributes of the given element
+   * @param element The element to update the attributes of
+   * @param props The props that represent the new attributes of the element
+   */
+  private updateAttributes(
+    element: HTMLElement,
+    props: { [key: string]: any }
+  ) {
+    const props_keys = Object.keys(props);
+    for (
+      let i = 0;
+      i < props_keys.length || i < element.attributes.length;
+      i++
+    ) {
+      if (!props_keys[i]) {
+        // Prop has been removed
+        $(element).removeAttr(props[props_keys[i]]);
+        continue;
+      }
+      if (element.hasAttribute(props_keys[i])) {
+        // Prop already exists, update value
+        element.attributes[i].nodeValue = props[props_keys[i]];
+        continue;
+      }
+      if (!element.attributes[i]) {
+        // Prop has been added
+        if (props_keys[i].startsWith("on")) {
+          $(element).on(props_keys[i].slice(2), (e: Event) =>
+            jQuingoEventHandler.callbacks[props[props_keys[i]]](e)
+          );
+          continue;
+        }
+        $(element).prop(props_keys[i], props[props_keys[i]]);
+      }
+    }
   }
 }
