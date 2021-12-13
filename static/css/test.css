@@ -1,0 +1,13 @@
+h1 {
+    color: pink;
+    animation: slide 4s infinite alternate;
+}
+
+p {
+    animation: slide 4s infinite alternate;
+}
+
+@keyframes slide {
+    from {margin-left: 0px}
+    to {margin-left: 100px}
+}

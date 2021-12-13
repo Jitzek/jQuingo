@@ -1,11 +1,12 @@
 const path = require("path");
+const { merge } = require("webpack-merge");
 
 const mode = process.env.NODE_ENV || "development";
 
 // Automatically creates the index.html file with all it's bundles
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+const defaultConfig = {
   mode: mode,
   entry: {
     index: "./src/index.ts",
@@ -17,7 +18,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Routing",
+      title: "jQuingo",
     }),
   ],
   module: {
@@ -46,14 +47,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-  },
-  // https://webpack.js.org/guides/development/#using-source-maps
-  // TLDR: Maps compiled code back to the original source code to easily track where an error occured
-  devtool: "inline-source-map",
-  devServer: {
-    static: path.join(__dirname, "dist"),
-    port: 8080,
-    liveReload: true,
   },
   optimization: {
     // 'deterministic': Short numeric ids which will not change between compilations. (Good for long term caching)
@@ -84,3 +77,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.css', 'scss', '.woff', 'woff2', 'eot', 'ttf', 'otf', 'png', 'svg', 'jpg', 'jpeg', 'gif']
   }
 };
+const devConfig = require('./webpack.development');
+const prodConfig = require('./webpack.production');
+
+module.exports = merge(defaultConfig, mode === 'development' ? devConfig : prodConfig);

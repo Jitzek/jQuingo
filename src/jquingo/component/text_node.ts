@@ -5,7 +5,6 @@ import { clone } from "lodash";
 
 export class jQuingoTextNode implements jQuingoNode {
   public prev!: jQuingoNode;
-  public rendered = false;
 
   constructor(public value: string) {}
 
@@ -32,7 +31,6 @@ export class jQuingoTextNode implements jQuingoNode {
     }
     // Check if value hasn't changed
     if (this.value !== this.prev.value) {
-      console.log("hello");
       $(container)
         .contents()
         .replaceWith(
