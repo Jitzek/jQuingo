@@ -6,6 +6,9 @@ const mode = process.env.NODE_ENV || "development";
 // Automatically creates the index.html file with all it's bundles
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+// Extract CSS into seperate files. Create a CSS file per JS file (CSS modules)
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+
 const defaultConfig = {
   mode: mode,
   entry: {
@@ -20,6 +23,7 @@ const defaultConfig = {
     new HtmlWebpackPlugin({
       title: "jQuingo",
     }),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
@@ -30,7 +34,7 @@ const defaultConfig = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
         include: path.resolve(__dirname, 'static', 'css')
       },
       {
