@@ -3,6 +3,7 @@ import { jQuingoNode } from "./component/node";
 import { jQuingoTextNode } from "./component/text_node";
 import * as $ from "jquery";
 import { app } from "@src/App";
+import { jQuingoComponent } from "./component/component";
 
 export class jQuingo {
   public static createNodes(_html?: string, _element?: Element): jQuingoNode[] {

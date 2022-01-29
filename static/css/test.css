@@ -1,4 +1,4 @@
-h1 {
+/* h1 {
     color: pink;
     animation: slide 4s infinite alternate;
 }
@@ -10,4 +10,4 @@ p {
 @keyframes slide {
     from {margin-left: 0px}
     to {margin-left: 100px}
-}
+} */
