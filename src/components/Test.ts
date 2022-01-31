@@ -1,5 +1,5 @@
 import { jQuingoComponent } from "@src/jquingo/component/component";
-import "@css/test.css";
+// import "@css/test.css";
 import {
   jQuingoEventHandler,
   jQuingoEventHandlerFunction,
@@ -32,6 +32,21 @@ export class TestComponent extends jQuingoComponent {
                 <p>${this.description} counter: ${this.counter} ${this.counter === 1 ? 'second' : 'seconds'}</p>
                 <button class="button" onclick="${this.on_reset_counter}">Reset Counter</button>
             </div>
+            <style>
+              h1 {
+                color: pink;
+                animation: slide 4s infinite alternate;
+              }
+          
+              p {
+                animation: slide 4s infinite alternate;
+              }
+          
+              @keyframes slide {
+                from {margin-left: 0px}
+                to {margin-left: 100px}
+              }
+            </style>
         `;
   }
 }

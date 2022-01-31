@@ -23,7 +23,9 @@ export class jQuingoComponentNode implements jQuingoNode {
    *      <a href="/">Click Me!</a>
    *    </div>
    * </div>
+   * 
    * ^ translates v
+   * 
    * jQuingoComponent:
    * {
    *    type: "div",
@@ -69,15 +71,6 @@ export class jQuingoComponentNode implements jQuingoNode {
   public render(container: HTMLElement): void {
     this.element = document.createElement(this.type);
 
-    // for (const key in this.props) {
-    //   if (key.startsWith("on")) {
-    //     $(this.element).on(key.slice(2), (e: Event) =>
-    //       jQuingoEventHandler.callbacks[this.props[key]](e)
-    //     );
-    //     continue;
-    //   }
-    //   $(this.element).prop(key, this.props[key]);
-    // }
     this.updateAttributes(this.element, this.props);
 
     this.children.forEach((component) => {
@@ -109,22 +102,6 @@ export class jQuingoComponentNode implements jQuingoNode {
       i < this.children.length || i < this.prev_children.length;
       i++
     ) {
-      // Seems unnecessary? Should be handled by calling update on child
-      // if (this.children[i] && this.prev_children[i]) {
-      //   const child = this.children[i];
-      //   const prev_child = this.prev_children[i];
-      //   if (
-      //     (child instanceof jQuingoComponentNode &&
-      //       prev_child instanceof jQuingoComponentNode &&
-      //       child.type !== prev_child.type) ||
-      //     (child instanceof jQuingoTextNode &&
-      //       prev_child instanceof jQuingoTextNode &&
-      //       child.value !== prev_child.value)
-      //   ) {
-      //     this.reload();
-      //   }
-      // }
-
       if (!this.children[i]) {
         // Child has been removed, so remove from UI aswell
         this.prev_children[i].remove();

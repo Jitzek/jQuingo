@@ -8,7 +8,7 @@ export class HomeRoute extends jQuingoRoute {
   public override template(): string {
     return `
       <div>
-        <h1>Home</h1>
+        <h1 class="test">Home</h1>
         <a href="/">Go to Root</a>
       </div>
     `;

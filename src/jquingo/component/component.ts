@@ -1,5 +1,5 @@
-import { jQuingo } from "../jQuingo";
-import { jQuingoNode } from "./node";
+import { jQuingo } from "@jquingo/jQuingo";
+import { jQuingoNode } from "@jquingo/component/node";
 
 export class jQuingoComponent {
   protected nodes: jQuingoNode[] = [];
