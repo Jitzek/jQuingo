@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 // Extract CSS into seperate files. Create a CSS file per JS file (CSS modules)
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
 
 module.exports = {
     mode: process.env.NODE_ENV,
@@ -24,6 +25,11 @@ module.exports = {
             title: "jQuingo",
         }),
         new MiniCssExtractPlugin(),
+        // Inject implicit globals for jquery
+        new webpack.ProvidePlugin({
+            $: "jquery-min",
+            jQuery: "jquery-min"
+        })
     ],
     module: {
         rules: [

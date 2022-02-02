@@ -23,6 +23,16 @@
       "@css/*": ["static/css/*"],
       "@fonts/*": ["static/fonts/*"],
       "@img/*": ["static/img/*"]
-    }
+    },
+    /** Allows us to write an import like:
+      import Something from "module"
+      Instead of:
+      import * as Something from "module"
+    */
+    // This is needed if a module does not have a default export
+    // In our case lodash-es
+    // We also use it for other modules, though these modules do not *require* it
+    // The alternative would be to write the default export ourselves
+    "allowSyntheticDefaultImports": true
   }
 }

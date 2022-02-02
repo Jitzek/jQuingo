@@ -1,6 +1,5 @@
 import { jQuingoNode } from "./node";
-import * as $ from "jquery";
-import { clone } from "lodash";
+import clone from "lodash/clone";
 import { jQuingoEventHandler } from "@src/jquingo/events/event_handler";
 
 export class jQuingoComponentNode implements jQuingoNode {

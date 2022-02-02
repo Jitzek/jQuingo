@@ -1,7 +1,6 @@
 import { jQuingoNode } from "./node";
-import * as $ from "jquery";
 import * as sanitizeHtml from "sanitize-html";
-import { clone } from "lodash";
+import clone from "lodash/clone";
 
 export class jQuingoTextNode implements jQuingoNode {
   public prev!: jQuingoNode;

@@ -1,7 +1,6 @@
 import { jQuingoComponentNode } from "./component/component_node";
 import { jQuingoNode } from "./component/node";
 import { jQuingoTextNode } from "./component/text_node";
-import * as $ from "jquery";
 import { app } from "@src/App";
 
 export class jQuingo {
