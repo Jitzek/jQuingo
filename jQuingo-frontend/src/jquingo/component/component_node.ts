@@ -188,7 +188,5 @@ export class jQuingoComponentNode implements jQuingoNode {
                 $(element).attr(props_keys[i], props[props_keys[i]]);
             }
         }
-        console.log(this);
-        console.log(element.attributes);
     }
 }

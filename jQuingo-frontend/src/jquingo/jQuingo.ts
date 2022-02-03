@@ -41,8 +41,6 @@ export class jQuingo {
             nodes.push(node);
         }
 
-        console.log(nodes);
-
         return nodes;
     }
 
@@ -100,15 +98,12 @@ export class jQuingo {
         return nodes;
     }
 
-    private test = 0;
     public renderLoop(container: HTMLElement) {
         app.render().forEach((node) => {
             node.update(container);
         });
 
-        if (this.test++ < 2) {
-            // Re-run everytime main thread is idle (to prevent blocking UI)
-            requestIdleCallback(() => this.renderLoop(container));
-        }
+        // Re-run everytime main thread is idle (to prevent blocking UI)
+        requestIdleCallback(() => this.renderLoop(container));
     }
 }
