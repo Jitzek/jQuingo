@@ -1,5 +1,6 @@
 import { jQuingoComponent } from "@src/jquingo/component/component";
-import "@css/Lingo/helptogglebutton.css";
+
+import "@css/Lingo/Topbar/helptogglebutton.css";
 
 export class HelpToggleButtonComponent extends jQuingoComponent {
   constructor() {

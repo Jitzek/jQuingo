@@ -5,7 +5,7 @@ import { jQuingoEventHandler } from "@src/jquingo/events/event_handler";
 export class jQuingoComponentNode implements jQuingoNode {
     public prev!: jQuingoNode;
     public prev_children: Array<jQuingoNode> = [];
-    public element!: HTMLElement | SVGElement;
+    public element!: Element;
     public type: string;
     public props: { [key: string]: any };
     public children: Array<jQuingoNode>;
@@ -67,15 +67,21 @@ export class jQuingoComponentNode implements jQuingoNode {
         this.children = children;
     }
 
-    public render(container: HTMLElement): void {
-        // FIXME: Temporary work-around for svgs
+    private namespaceURIdict: { [key: string]: string } = {
+        "svg": "http://www.w3.org/2000/svg",
+        "path": "http://www.w3.org/2000/svg",
+        "g": "http://www.w3.org/2000/svg"
+    }
+    private createElement(type: string): Element {
         // https://stackoverflow.com/questions/24961151/svg-wont-show-until-i-edit-the-element-in-chrome-developer-tools
-        if (this.type === "svg" || this.type === "path" || this.type === "g") {
-            this.element = document.createElementNS("http://www.w3.org/2000/svg", this.type);
+        if (this.namespaceURIdict[type]) {
+            return document.createElementNS(this.namespaceURIdict[type], this.type);
         }
-        else {
-            this.element = document.createElement(this.type);
-        }
+        return document.createElement(this.type);
+    }
+
+    public render(container: HTMLElement): void {
+        this.element = this.createElement(this.type);
 
         this.updateAttributes(this.element, this.props);
 
@@ -137,15 +143,7 @@ export class jQuingoComponentNode implements jQuingoNode {
      */
     private reload() {
         // Create a new element and override the existing element with this new element
-        let new_element: HTMLElement | SVGElement;
-        // FIXME: Temporary work-around for svgs
-        // https://stackoverflow.com/questions/24961151/svg-wont-show-until-i-edit-the-element-in-chrome-developer-tools
-        if (this.type === "svg" || this.type === "path" || this.type === "g") {
-            new_element = document.createElementNS("http://www.w3.org/2000/svg", this.type);
-        }
-        else {
-            new_element = document.createElement(this.type);
-        }
+        let new_element = this.createElement(this.type);
         // Set properties
         this.updateAttributes(new_element, this.props);
         // Render children to new element
@@ -160,7 +158,7 @@ export class jQuingoComponentNode implements jQuingoNode {
      * @param props The props that represent the new attributes of the element
      */
     private updateAttributes(
-        element: HTMLElement | SVGElement,
+        element: Element,
         props: { [key: string]: any }
     ) {
         const props_keys = Object.keys(props);

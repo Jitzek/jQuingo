@@ -1,6 +1,7 @@
 import { jQuingoComponent } from "@src/jquingo/component/component";
-import "@css/Lingo/settingstogglebutton.css";
-import { SettingsIconComponent } from "../Icons/SettingsIcon";
+import { SettingsIconComponent } from "@components/Icons/SettingsIcon";
+
+import "@css/Lingo/Topbar/settingstogglebutton.css";
 
 export class SettingsToggleButtonComponent extends jQuingoComponent {
     private settings_icon = new SettingsIconComponent();

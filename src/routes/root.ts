@@ -15,11 +15,7 @@ export class RootRoute extends jQuingoRoute {
     return `
       <div class="container">
         ${this.lingo_component.template()}
-        <a href="/home">Go to Home</a>
       </div>
-      <pre>
-        <h2>Hello World</h2>
-      </pre>
     `;
   }
 }
