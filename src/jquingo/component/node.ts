@@ -3,7 +3,7 @@
  */
 export interface jQuingoNode {
     prev: jQuingoNode;
-    render(container: HTMLElement): void;
-    update(container: HTMLElement): void;
+    render(container: HTMLElement | SVGElement): void;
+    update(container: HTMLElement | SVGElement): void;
     remove(): void;
 }

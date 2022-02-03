@@ -85,7 +85,7 @@ module.exports = {
             "@routes": path.resolve(__dirname, "src", "routes"),
             "@css": path.resolve(__dirname, "static", "css"),
             "@fonts": path.resolve(__dirname, "static", "fonts"),
-            "@img": path.resolve(__dirname, "static", "img"),
+            "@images": path.resolve(__dirname, "static", "images"),
         },
         extensions: [
             ".ts",

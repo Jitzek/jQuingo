@@ -22,7 +22,7 @@
       "@routes/*": ["src/routes/*"],
       "@css/*": ["static/css/*"],
       "@fonts/*": ["static/fonts/*"],
-      "@img/*": ["static/img/*"]
+      "@images/*": ["static/images/*"]
     },
     /** Allows us to write an import like:
       import Something from "module"

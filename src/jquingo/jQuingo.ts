@@ -41,6 +41,8 @@ export class jQuingo {
             nodes.push(node);
         }
 
+        console.log(nodes);
+
         return nodes;
     }
 
@@ -89,7 +91,6 @@ export class jQuingo {
                     if (node.value !== new_node.value)
                         (nodes[i] as jQuingoTextNode).value = new_node.value;
                 } else if (new_node instanceof jQuingoComponentNode) {
-                    
                     // Replace text node with component node
                     nodes[i] = new_node;
                 }
@@ -99,12 +100,15 @@ export class jQuingo {
         return nodes;
     }
 
+    private test = 0;
     public renderLoop(container: HTMLElement) {
         app.render().forEach((node) => {
             node.update(container);
         });
 
-        // Re-run everytime main thread is idle (to prevent blocking UI)
-        requestIdleCallback(() => this.renderLoop(container));
+        if (this.test++ < 2) {
+            // Re-run everytime main thread is idle (to prevent blocking UI)
+            requestIdleCallback(() => this.renderLoop(container));
+        }
     }
 }

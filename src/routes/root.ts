@@ -1,8 +1,8 @@
-import { TestComponent } from "@src/components/Test";
+import { LingoComponent } from "@src/components/Lingo/Lingo";
 import { jQuingoRoute } from "@src/jquingo/router/route";
 
 export class RootRoute extends jQuingoRoute {
-  private test_component = new TestComponent("Test title", "Test description");
+  private lingo_component = new LingoComponent();
 
   constructor() {
     super("/");
@@ -14,7 +14,7 @@ export class RootRoute extends jQuingoRoute {
   public override template(): string {
     return `
       <div class="container">
-        ${this.test_component.template()}
+        ${this.lingo_component.template()}
         <a href="/home">Go to Home</a>
       </div>
       <pre>

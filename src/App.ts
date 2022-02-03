@@ -1,5 +1,7 @@
 import { jQuingoComponent } from "@jquingo/component/component";
 import { router } from "./jquingo/router/router";
+import "@css/app.css";
+import "@fonts/Evolventa-zLXL.ttf";
 
 class jQuingoApp extends jQuingoComponent {
     public override template(): string {
