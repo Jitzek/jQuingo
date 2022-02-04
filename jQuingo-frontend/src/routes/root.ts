@@ -13,7 +13,7 @@ export class RootRoute extends jQuingoRoute {
 
   public override template(): string {
     return `
-      <div class="container">
+      <div class="root">
         ${this.lingo_component.template()}
       </div>
     `;

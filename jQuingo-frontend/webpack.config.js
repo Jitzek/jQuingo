@@ -10,7 +10,7 @@ const webpack = require("webpack");
 module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
-        index: "./src/index.ts",
+        index: path.resolve(__dirname, "src", "index.ts"),
     },
     output: {
         // By using [contenthash] (which based on the content in the file itself)
@@ -24,12 +24,15 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: "jQuingo",
         }),
+        // MiniCssExtractPlugin extracts the (imported) css from each javascript/typescript
+        // And bundles them into one .css file
+        // style-loader would take the (imported) css and inject it into the DOM in seperate <style></style> elements
         new MiniCssExtractPlugin(),
         // Inject implicit globals for jquery
         new webpack.ProvidePlugin({
             $: "jquery-min",
-            jQuery: "jquery-min"
-        })
+            jQuery: "jquery-min",
+        }),
     ],
     module: {
         rules: [
@@ -42,8 +45,21 @@ module.exports = {
                 test: /\.css$/i,
                 // css-loader collects CSS from all the css files referenced in the application, and puts it into a (javascript) string
                 // style-loader adds the CSS collected by css-loader and adds it to the DOM by injecting a <style> tag
-                // "use" loads in reverse order so to first load css-loader and then style-loader we have to do the following:
-                use: ["style-loader", "css-loader"],
+                // "use" loads in reverse order so to first load css-loader and then style-loader (or MiniCssExtractPlugin.loader) we have to do the following:
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: "css-loader",
+                        options: {
+                            // "importLoaders" Resolves @import is left unresolved
+                            // See: https://github.com/webpack-contrib/css-loader/issues/228#issuecomment-312885975
+                            // Probably not necessary for our purposes
+                            importLoaders: 1,
+                            // "modules" enables support for modules, used for scoped CSS
+                            modules: true,
+                        },
+                    },
+                ],
                 include: path.resolve(__dirname, "static", "css"),
             },
             {

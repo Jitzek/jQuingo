@@ -1,6 +1,6 @@
 import { jQuingoComponent } from "@src/jquingo/component/component";
 
-import "@css/Lingo/Topbar/helptogglebutton.css";
+import style from "@css/Lingo/Topbar/helptogglebutton.css";
 
 export class HelpToggleButtonComponent extends jQuingoComponent {
   constructor() {
@@ -12,8 +12,8 @@ export class HelpToggleButtonComponent extends jQuingoComponent {
 
   public override template(): string {
     return `
-            <button class="help-toggle-button">
-                <p class="help-toggle-button-content">?</p>
+            <button class="help-toggle-button ${style["help-toggle-button"]}">
+                <p class="${style["help-toggle-button-content"]}">?</p>
             </button>
         `;
   }

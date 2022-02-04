@@ -3,7 +3,7 @@ import {
     jQuingoEventHandler,
     jQuingoEventHandlerFunction,
 } from "@src/jquingo/events/event_handler";
-import "@css/Lingo/lingo.css";
+import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 
 export class LingoComponent extends jQuingoComponent {
@@ -31,8 +31,9 @@ export class LingoComponent extends jQuingoComponent {
 
     public override template(): string {
         return `
-            <div class="lingo-container">
-              <div class="topbar-container">
+            <!-- Example of scoped css implementation -->
+            <div class="lingo ${style["lingo-container"]}">
+              <div class="${style["topbar-container"]}">
                 ${this.topbar_component.template()}
               </div>
             </div>

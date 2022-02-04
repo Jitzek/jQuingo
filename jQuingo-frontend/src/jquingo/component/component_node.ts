@@ -67,13 +67,23 @@ export class jQuingoComponentNode implements jQuingoNode {
         this.children = children;
     }
 
+    /**
+     * Calling Document.createElement on an HTML document will always create an HTML element.
+     * An HTML element with the tag name "svg" will just be treated as an unknown span-type element.
+     * 
+     * Using either innerHTML to pass a markup string or Document.createElementNS and passing in the correct namespace URI
+     * will create the SVG element correctly.
+     * This should also be done for all the children inside the SVG.
+     * 
+     * The namespaceURIdict-variable will be used for all elements which require a specific namespace URI to be correctly created.
+     * The jQuingoComponentNode.createElement-function will use this dictionary to create and return the element by type.
+     */
     private namespaceURIdict: { [key: string]: string } = {
         "svg": "http://www.w3.org/2000/svg",
         "path": "http://www.w3.org/2000/svg",
         "g": "http://www.w3.org/2000/svg"
     }
     private createElement(type: string): Element {
-        // https://stackoverflow.com/questions/24961151/svg-wont-show-until-i-edit-the-element-in-chrome-developer-tools
         if (this.namespaceURIdict[type]) {
             return document.createElementNS(this.namespaceURIdict[type], this.type);
         }
