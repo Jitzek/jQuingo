@@ -5,3 +5,22 @@
 
     width: 100%;
 }
+
+.row.appear {
+    animation: appear ease-out;
+}
+
+.row.dissappear {
+    animation:  appear ease-out reverse forwards;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 100;
+        transform: translateX(0%);
+    }
+}

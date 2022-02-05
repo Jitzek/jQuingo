@@ -33,6 +33,7 @@
     // In our case lodash-es
     // We also use it for other modules, though these modules do not *require* it
     // The alternative would be to write the default export ourselves
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   }
 }

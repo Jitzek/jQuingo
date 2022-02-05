@@ -44,4 +44,36 @@ export class LingoComponent extends jQuingoComponent {
             </div>
         `;
     }
+
+    public async startGame(rows: number = 5) {
+        this.grid_component.createGrid();
+    }
+
+    public handleWordInput() {
+
+    }
+
+    public guessValue(value: string, animation_time: number): Promise<boolean> {
+        return new Promise<boolean>(
+            (resolve: (value: boolean | PromiseLike<boolean>) => void) => {
+                // Determine if word was correct
+                //
+
+                // Animate
+                //
+
+                // Wait for animation to finish
+                setTimeout(() => {
+                    resolve(true);
+                }, animation_time);
+            }
+        );
+    }
+
+    public async endGame() {
+        // Clear grid
+        await this.grid_component.clearGrid();
+
+        // Give option to create new grid
+    }
 }
