@@ -5,6 +5,7 @@ import {
 } from "@src/jquingo/events/event_handler";
 import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
+import { GridComponent } from "@components/Lingo/Grid/Grid";
 
 export class LingoComponent extends jQuingoComponent {
     private counter = 0;
@@ -14,6 +15,7 @@ export class LingoComponent extends jQuingoComponent {
         );
 
     private topbar_component = new TopbarComponent();
+    private grid_component = new GridComponent();
 
     constructor() {
         super();
@@ -35,6 +37,9 @@ export class LingoComponent extends jQuingoComponent {
             <div class="lingo ${style["lingo-container"]}">
               <div class="${style["topbar-container"]}">
                 ${this.topbar_component.template()}
+              </div>
+              <div class="${style["grid-container"]}">
+                ${this.grid_component.template()}
               </div>
             </div>
         `;

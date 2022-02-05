@@ -1,0 +1,7 @@
+.row {
+    display: grid;
+    gap: 5px;
+    grid-auto-flow: column;
+
+    width: 100%;
+}

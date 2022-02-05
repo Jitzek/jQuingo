@@ -1,0 +1,9 @@
+.grid {
+    display: grid;
+    gap: 5px;
+    grid-auto-flow: column;
+
+    padding: 0 5px 0 5px;
+    align-items: center;
+    justify-items: center;
+}
