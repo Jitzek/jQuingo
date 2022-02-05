@@ -51,12 +51,12 @@ module.exports = {
                     {
                         loader: "css-loader",
                         options: {
-                            // "importLoaders" Resolves @import is left unresolved
+                            // "import" Resolves @import is left unresolved
                             // See: https://github.com/webpack-contrib/css-loader/issues/228#issuecomment-312885975
                             // Probably not necessary for our purposes
-                            importLoaders: 1,
+                            import: true,
                             // "modules" enables support for modules, used for scoped CSS
-                            modules: true,
+                            modules: true
                         },
                     },
                 ],
