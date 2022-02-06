@@ -2,6 +2,7 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 
 import style from "@css/Lingo/Grid/grid.css";
 import { RowComponent } from "@components/Lingo/Grid/Row";
+import { ColumnComponent } from "./Column";
 
 export class GridComponent extends jQuingoComponent {
     private word_length: number = 5;
@@ -16,7 +17,9 @@ export class GridComponent extends jQuingoComponent {
     public override template(): string {
         return `
             <div class="grid ${style["grid"]}"
-            style="grid-template-rows: repeat(${this.rows}, 100%);"
+            style="
+                grid-template-rows: repeat(${this.rows}, 100%);
+            "
             >
               ${this.concatRowComponents()}
             </div>
@@ -31,13 +34,10 @@ export class GridComponent extends jQuingoComponent {
         return concatenated_row_components;
     }
 
-    public addRow(value: string, animation_time = 750): Promise<void> {
+    public addRow(row: RowComponent, animation_time = 750): Promise<void> {
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {
-                // Add initial row
-                this.row_components.push(
-                    new RowComponent(this.word_length, value, animation_time)
-                );
+                this.row_components.push(row);
                 setTimeout(() => {
                     resolve();
                 }, animation_time);
@@ -47,31 +47,54 @@ export class GridComponent extends jQuingoComponent {
 
     public createGrid(
         word_length: number = 5,
-        rows: number = 5
+        rows: number = 5,
+        total_animation_time = 1000
     ): Promise<void> {
         this.word_length = word_length;
         this.rows = rows;
 
-        // Add initial row
-        return this.addRow("L....");
-    }
-
-    public clearGrid(animation_time: number = 750): Promise<void> {
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {
-                // Add items to grid
-                //
+                // Add rows (with small delay for animation)
+                for (let i = 0; i < this.rows; i++) {
+                    // Fill array with empty columns
+                    let columns = Array.from(
+                        { length: this.word_length },
+                        () => new ColumnComponent("", "grey")
+                    );
+                    // If first row, reveal first letter
+                    if (i === 0) {
+                        columns[0].letter = "L";
+                        columns[0].color = "red";
+                        // Fill rest of row with dots
+                        for (let j = 1; j < this.word_length; j++) {
+                            columns[j].letter = ".";
+                        }
+                        console.log(columns);
+                    }
+                    setTimeout(() => {
+                        this.addRow(new RowComponent(columns));
+                    }, (total_animation_time / this.rows) * i);
+                }
+                setTimeout(() => {
+                    resolve();
+                }, total_animation_time);
+            }
+        );
+    }
 
-                let amount_of_row_components = this.row_components.length;
+    public clearGrid(total_animation_time: number = 1000): Promise<void> {
+        return new Promise<void>(
+            (resolve: (value: void | PromiseLike<void>) => void) => {
                 for (let i = 0; i < this.rows; i++) {
                     setTimeout(() => {
                         this.row_components.splice(-1);
-                    }, animation_time * i);
+                    }, (total_animation_time / this.rows) * i);
                 }
 
                 setTimeout(() => {
                     resolve();
-                }, animation_time * amount_of_row_components);
+                }, total_animation_time);
             }
         );
     }

@@ -4,50 +4,38 @@ import style from "@css/Lingo/Grid/row.css";
 import { ColumnComponent } from "@components/Lingo/Grid/Column";
 
 export class RowComponent extends jQuingoComponent {
-    private column_component = new ColumnComponent("Q");
-    public value!: string;
+    public columns: ColumnComponent[] = [];
+
     private animation_state: "appear" | "none" | "dissappear" = "none";
 
     constructor(
-        public columns: number = 5,
-        initial_value: string,
+        initial_columns: ColumnComponent[],
         private animation_time: number = 500
     ) {
         super();
-        this.setValue(initial_value);
+        this.columns = initial_columns;
         this.animation_state = "appear";
-    }
-
-    private setValue(new_value: string): void {
-        if (new_value.trim().length !== this.columns) {
-            throw new InvalidValueError(
-                `Trimmed value length was ${
-                    new_value.trim().length
-                }, expected ${this.columns}`
-            );
-        }
     }
 
     public override template(): string {
         return `
             <div class="row ${style["row"]} ${style[this.animation_state]}" 
             style="
-                max-width: ${5 * this.columns}rem;
+                max-width: ${5 * this.columns.length}rem;
                 animation-duration: ${this.animation_time}ms;
+                grid-template-columns: repeat(${this.columns.length}, calc(${100 / this.columns.length}% - 5px));
+                margin-left: 5px;
             ">
-              ${this.column_component.template()}
-              ${this.column_component.template()}
-              ${this.column_component.template()}
-              ${this.column_component.template()}
-              ${this.column_component.template()}
+              ${this.concatColumnComponents()}
             </div>
         `;
     }
-}
 
-export class InvalidValueError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "InvalidValueError";
+    private concatColumnComponents(): string {
+        let concatenated_column_components = "";
+        this.columns.forEach((column_component) => {
+            concatenated_column_components += column_component.template();
+        });
+        return concatenated_column_components;
     }
 }
