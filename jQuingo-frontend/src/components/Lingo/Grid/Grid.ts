@@ -3,15 +3,31 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 import style from "@css/Lingo/Grid/grid.css";
 import { RowComponent } from "@components/Lingo/Grid/Row";
 import { ColumnComponent } from "./Column";
+import {
+    jQuingoEventHandler,
+    jQuingoEventHandlerFunction,
+} from "@src/jquingo/events/event_handler";
 
 export class GridComponent extends jQuingoComponent {
     private word_length: number = 5;
     private rows: number = 5;
     private row_components: RowComponent[] = [];
 
+    private handle_start_button_click: jQuingoEventHandlerFunction =
+        jQuingoEventHandler.on((e: Event) => {
+            if (this.row_components.length > 0) return;
+            this.createGrid();
+        });
+        
+    private handle_stop_button_click: jQuingoEventHandlerFunction =
+        jQuingoEventHandler.on((e: Event) => {
+            if (!(this.row_components.length > 0)) return;
+            this.clearGrid();
+        });
+
     constructor() {
         super();
-        this.createGrid();
+        // this.createGrid();
     }
 
     public override template(): string {
@@ -21,7 +37,21 @@ export class GridComponent extends jQuingoComponent {
                 grid-template-rows: repeat(${this.rows}, 100%);
             "
             >
-              ${this.concatRowComponents()}
+              ${
+                  this.row_components.length > 0
+                      ? this.concatRowComponents()
+                      : ""
+              }
+            </div>
+            <div class="${this.row_components.length > 0 ? style["hidden"] : ""}">
+                <button class="${style["start-button"]}" onclick="${this.handle_start_button_click}">
+                    Start
+                </button>
+            </div>
+            <div class="${this.row_components.length > 0 ? "" : style["hidden"]}">
+                <button class="${style["stop-button"]}" onclick="${this.handle_stop_button_click}">
+                    Stop
+                </button>
             </div>
         `;
     }
@@ -70,7 +100,6 @@ export class GridComponent extends jQuingoComponent {
                         for (let j = 1; j < this.word_length; j++) {
                             columns[j].letter = ".";
                         }
-                        console.log(columns);
                     }
                     setTimeout(() => {
                         this.addRow(new RowComponent(columns));

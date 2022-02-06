@@ -70,22 +70,25 @@ export class jQuingoComponentNode implements jQuingoNode {
     /**
      * Calling Document.createElement on an HTML document will always create an HTML element.
      * An HTML element with the tag name "svg" will just be treated as an unknown span-type element.
-     * 
+     *
      * Using either innerHTML to pass a markup string or Document.createElementNS and passing in the correct namespace URI
      * will create the SVG element correctly.
      * This should also be done for all the children inside the SVG.
-     * 
+     *
      * The namespaceURIdict-variable will be used for all elements which require a specific namespace URI to be correctly created.
      * The jQuingoComponentNode.createElement-function will use this dictionary to create and return the element by type.
      */
     private namespaceURIdict: { [key: string]: string } = {
-        "svg": "http://www.w3.org/2000/svg",
-        "path": "http://www.w3.org/2000/svg",
-        "g": "http://www.w3.org/2000/svg"
-    }
+        svg: "http://www.w3.org/2000/svg",
+        path: "http://www.w3.org/2000/svg",
+        g: "http://www.w3.org/2000/svg",
+    };
     private createElement(type: string): Element {
         if (this.namespaceURIdict[type]) {
-            return document.createElementNS(this.namespaceURIdict[type], this.type);
+            return document.createElementNS(
+                this.namespaceURIdict[type],
+                this.type
+            );
         }
         return document.createElement(this.type);
     }
@@ -167,10 +170,7 @@ export class jQuingoComponentNode implements jQuingoNode {
      * @param element The element to update the attributes of
      * @param props The props that represent the new attributes of the element
      */
-    private updateAttributes(
-        element: Element,
-        props: { [key: string]: any }
-    ) {
+    private updateAttributes(element: Element, props: { [key: string]: any }) {
         const props_keys = Object.keys(props);
         for (
             let i = 0;
@@ -193,7 +193,6 @@ export class jQuingoComponentNode implements jQuingoNode {
                     $(element).on(props_keys[i].slice(2), (e: Event) =>
                         jQuingoEventHandler.callbacks[props[props_keys[i]]](e)
                     );
-                    continue;
                 }
                 $(element).attr(props_keys[i], props[props_keys[i]]);
             }
