@@ -23,12 +23,23 @@ export class RowComponent extends jQuingoComponent {
             style="
                 max-width: ${5 * this.columns.length}rem;
                 animation-duration: ${this.animation_time}ms;
-                grid-template-columns: repeat(${this.columns.length}, calc(${100 / this.columns.length}% - 5px));
+                grid-template-columns: repeat(${this.columns.length}, calc(${
+            100 / this.columns.length
+        }% - 5px));
                 margin-left: 5px;
             ">
               ${this.concatColumnComponents()}
             </div>
         `;
+    }
+
+    public dissappear(): Promise<void> {
+        return new Promise<void>(
+            (resolve: (value: void | PromiseLike<void>) => void) => {
+                this.animation_state = "dissappear";
+                setTimeout(() => resolve(), this.animation_time);
+            }
+        );
     }
 
     private concatColumnComponents(): string {

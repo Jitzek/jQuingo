@@ -3,27 +3,31 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 import style from "@css/Lingo/Grid/grid.css";
 import { RowComponent } from "@components/Lingo/Grid/Row";
 import { ColumnComponent } from "./Column";
-import {
-    jQuingoEventHandler,
-    jQuingoEventHandlerFunction,
-} from "@src/jquingo/events/event_handler";
+import { InputComponent } from "./Input/Input";
 
 export class GridComponent extends jQuingoComponent {
     private word_length: number = 5;
     private rows: number = 5;
     private row_components: RowComponent[] = [];
+    public animation_state: "creating" | "clearing" | "none" = "none";
+    private input_component: InputComponent = new InputComponent(
+        false,
+        false,
+        false,
+        () => this.handle_start(),
+        () => this.handle_stop(),
+        () => {}
+    );
 
-    private handle_start_button_click: jQuingoEventHandlerFunction =
-        jQuingoEventHandler.on((e: Event) => {
-            if (this.row_components.length > 0) return;
-            this.createGrid();
-        });
-        
-    private handle_stop_button_click: jQuingoEventHandlerFunction =
-        jQuingoEventHandler.on((e: Event) => {
-            if (!(this.row_components.length > 0)) return;
-            this.clearGrid();
-        });
+    private handle_start() {
+        if (this.row_components.length > 0) return;
+        this.createGrid();
+    }
+
+    private handle_stop() {
+        if (!(this.row_components.length > 0)) return;
+        this.clearGrid();
+    }
 
     constructor() {
         super();
@@ -31,6 +35,8 @@ export class GridComponent extends jQuingoComponent {
     }
 
     public override template(): string {
+        this.input_component.show_start = this.row_components.length <= 0;
+        this.input_component.show_stop = this.row_components.length > 0 && this.animation_state !== "clearing" && this.animation_state !== "creating";
         return `
             <div class="grid ${style["grid"]}"
             style="
@@ -39,24 +45,17 @@ export class GridComponent extends jQuingoComponent {
             >
               ${
                   this.row_components.length > 0
-                      ? this.concatRowComponents()
+                      ? this.concatenatedRowComponents()
                       : ""
               }
             </div>
-            <div class="${this.row_components.length > 0 ? style["hidden"] : ""}">
-                <button class="${style["start-button"]}" onclick="${this.handle_start_button_click}">
-                    Start
-                </button>
-            </div>
-            <div class="${this.row_components.length > 0 ? "" : style["hidden"]}">
-                <button class="${style["stop-button"]}" onclick="${this.handle_stop_button_click}">
-                    Stop
-                </button>
+            <div>
+                ${this.input_component.template()}
             </div>
         `;
     }
 
-    private concatRowComponents(): string {
+    private concatenatedRowComponents(): string {
         let concatenated_row_components = "";
         this.row_components.forEach((row_component) => {
             concatenated_row_components += row_component.template();
@@ -80,6 +79,7 @@ export class GridComponent extends jQuingoComponent {
         rows: number = 5,
         total_animation_time = 1000
     ): Promise<void> {
+        this.animation_state = "creating";
         this.word_length = word_length;
         this.rows = rows;
 
@@ -90,7 +90,7 @@ export class GridComponent extends jQuingoComponent {
                     // Fill array with empty columns
                     let columns = Array.from(
                         { length: this.word_length },
-                        () => new ColumnComponent("", "grey")
+                        () => new ColumnComponent('', "grey")
                     );
                     // If first row, reveal first letter
                     if (i === 0) {
@@ -106,6 +106,7 @@ export class GridComponent extends jQuingoComponent {
                     }, (total_animation_time / this.rows) * i);
                 }
                 setTimeout(() => {
+                    this.animation_state = "none";
                     resolve();
                 }, total_animation_time);
             }
@@ -113,17 +114,22 @@ export class GridComponent extends jQuingoComponent {
     }
 
     public clearGrid(total_animation_time: number = 1000): Promise<void> {
+        this.animation_state = "clearing";
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {
                 for (let i = 0; i < this.rows; i++) {
                     setTimeout(() => {
-                        this.row_components.splice(-1);
+                        this.row_components[this.rows - 1 - i]
+                            .dissappear()
+                            .then(() => {
+                                this.row_components.splice(-1);
+                                if (this.row_components.length <= 0) {
+                                    this.animation_state = "none";
+                                    resolve();
+                                }
+                            });
                     }, (total_animation_time / this.rows) * i);
                 }
-
-                setTimeout(() => {
-                    resolve();
-                }, total_animation_time);
             }
         );
     }
