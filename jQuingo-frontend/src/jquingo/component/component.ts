@@ -1,6 +1,5 @@
 import { jQuingo } from "@jquingo/jQuingo";
 import { jQuingoNode } from "@jquingo/component/node";
-import { ObservableValue } from "../observable_value";
 
 export class jQuingoComponent {
     protected nodes: jQuingoNode[] = [];

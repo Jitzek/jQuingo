@@ -1,35 +1,61 @@
 import { jQuingoComponent } from "@src/jquingo/component/component";
-import {
-    jQuingoEventHandler,
-    jQuingoEventHandlerFunction,
-} from "@src/jquingo/events/event_handler";
 import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 import { GridComponent } from "@components/Lingo/Grid/Grid";
+import { UserComponent } from "../User/User";
+import { jQuingoHTTP } from "@src/jquingo/network/http";
 
 export class LingoComponent extends jQuingoComponent {
-    private counter = 0;
-    private on_reset_counter: jQuingoEventHandlerFunction =
-        jQuingoEventHandler.on((e: Event) =>
-            this.resetCounter(e as MouseEvent)
-        );
-
+    private user!: UserComponent;
     private topbar_component = new TopbarComponent();
-    private grid_component = new GridComponent();
+    private grid_component = new GridComponent(
+        () => this.handle_start(),
+        () => this.handle_stop(),
+        (value: string) => this.handle_submit(value)
+    );
+
+    private handle_start() {
+        jQuingoHTTP.POST(
+            "http://localhost:8000/lingo/create",
+            "json",
+            {},
+            null,
+            (data, status, request) => {
+                console.info("Success");
+                this.user = new UserComponent(
+                    data["uuid"],
+                    data["boardId"],
+                    data["token"]
+                );
+                console.info(this.user);
+
+                jQuingoHTTP.POST(
+                    "http://localhost:8000/",
+                    "json",
+                    {},
+                    this.user.token,
+                    (data, status, request) => {
+                        console.info("Success again");
+                    },
+                    (error) => {
+                        console.error("Error");
+                    }
+                )
+            }
+        );
+    }
+
+    private handle_stop() {}
+
+    private handle_submit(value: string) {}
 
     constructor() {
         super();
     }
 
-    protected override init() {
-        setInterval(() => {
-            this.counter++;
-        }, 1000);
-    }
+    protected override init() {}
 
-    public resetCounter(e: MouseEvent) {
-        this.counter = 0;
-    }
+    public resetCounter(e: MouseEvent) {}
 
     public override template(): string {
         return `
@@ -45,13 +71,17 @@ export class LingoComponent extends jQuingoComponent {
         `;
     }
 
+    private stopGame() {
+        this.grid_component.clearGrid().then(() => {
+            this.grid_component = new GridComponent();
+        });
+    }
+
     public async startGame(rows: number = 5) {
         this.grid_component.createGrid();
     }
 
-    public handleWordInput() {
-
-    }
+    public handleWordInput() {}
 
     public guessValue(value: string, animation_time: number): Promise<boolean> {
         return new Promise<boolean>(

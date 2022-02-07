@@ -11,37 +11,56 @@ export class GridComponent extends jQuingoComponent {
     private row_components: RowComponent[] = [];
     public animation_state: "creating" | "clearing" | "none" = "none";
     private input_component: InputComponent = new InputComponent(
+        this.word_length,
         false,
         false,
         false,
         () => this.handle_start(),
         () => this.handle_stop(),
-        () => {}
+        (value: string) => this.handle_submit(value)
     );
 
     private handle_start() {
         if (this.row_components.length > 0) return;
         this.createGrid();
+        this.on_start();
     }
 
     private handle_stop() {
         if (!(this.row_components.length > 0)) return;
         this.clearGrid();
+        this.on_stop();
     }
 
-    constructor() {
+    private handle_submit(value: string) {
+        this.on_submit(value);
+    }
+
+    constructor(
+        private on_start: () => void = () => {},
+        private on_stop: () => void = () => {},
+        private on_submit: (value: string) => void = () => {}
+    ) {
         super();
         // this.createGrid();
     }
 
     public override template(): string {
+        this.input_component.word_length = this.word_length;
         this.input_component.show_start = this.row_components.length <= 0;
-        this.input_component.show_stop = this.row_components.length > 0 && this.animation_state !== "clearing" && this.animation_state !== "creating";
+        this.input_component.show_stop =
+            this.row_components.length > 0 &&
+            this.animation_state !== "clearing" &&
+            this.animation_state !== "creating";
+        this.input_component.show_input =
+            this.row_components.length > 0 &&
+            this.animation_state !== "clearing" &&
+            this.animation_state !== "creating";
         return `
             <div class="grid ${style["grid"]}"
-            style="
-                grid-template-rows: repeat(${this.rows}, 100%);
-            "
+                style="
+                    grid-template-rows: repeat(${this.rows}, 100%);
+                "
             >
               ${
                   this.row_components.length > 0
@@ -49,7 +68,7 @@ export class GridComponent extends jQuingoComponent {
                       : ""
               }
             </div>
-            <div>
+            <div class="${style["input-container"]}">
                 ${this.input_component.template()}
             </div>
         `;
@@ -90,7 +109,7 @@ export class GridComponent extends jQuingoComponent {
                     // Fill array with empty columns
                     let columns = Array.from(
                         { length: this.word_length },
-                        () => new ColumnComponent('', "grey")
+                        () => new ColumnComponent("", "grey")
                     );
                     // If first row, reveal first letter
                     if (i === 0) {
@@ -102,13 +121,13 @@ export class GridComponent extends jQuingoComponent {
                         }
                     }
                     setTimeout(() => {
-                        this.addRow(new RowComponent(columns));
+                        this.addRow(new RowComponent(columns, 750));
                     }, (total_animation_time / this.rows) * i);
                 }
                 setTimeout(() => {
                     this.animation_state = "none";
                     resolve();
-                }, total_animation_time);
+                }, total_animation_time + 750);
             }
         );
     }

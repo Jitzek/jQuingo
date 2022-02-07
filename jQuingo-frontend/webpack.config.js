@@ -7,6 +7,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 
+// Removes unused lodash features
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
+
 module.exports = {
     mode: process.env.NODE_ENV,
     entry: {
@@ -30,9 +33,10 @@ module.exports = {
         new MiniCssExtractPlugin(),
         // Inject implicit globals for jquery
         new webpack.ProvidePlugin({
-            $: "jquery-min",
-            jQuery: "jquery-min",
+            $: "jquery",
+            jQuery: "jquery",
         }),
+        new LodashModuleReplacementPlugin()
     ],
     module: {
         rules: [
