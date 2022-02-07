@@ -1,33 +1,32 @@
 export class jQuingoHTTP {
     static POST(
-        url: string,
-        dataType: string,
-        data: Object = {},
-        token: string | null = null,
-        onSucces: (
-            data: any,
-            status: JQuery.Ajax.SuccessTextStatus,
-            request: JQuery.jqXHR<any>
-        ) => void = (
-            data: any,
-            status: JQuery.Ajax.SuccessTextStatus,
-            request: JQuery.jqXHR<any>
-        ) => {},
-        onError: (error: JQuery.jqXHR<any>) => void = (
-            error: JQuery.jqXHR<any>
-        ) => {}
+        postData: jQuingoPostData
     ) {
         $.ajax({
-            url: url,
+            url: postData.url,
             type: "POST",
-            dataType: dataType,
-            data: data || {},
-            success: onSucces,
-            error: onError,
+            dataType: postData.dataType,
+            data: postData.data || {},
+            success: postData.onSucces,
+            error: postData.onError,
             headers: {
-                Authorization:
-                    token !== null ? "Bearer " + token : "",
+                Authorization: postData.token !== null ? "Bearer " + postData.token : "",
             },
         });
     }
 }
+
+export type jQuingoPostData = {
+    url: string;
+    dataType: string;
+    data?: any;
+    token?: string;
+    onSucces?: (
+        data: any,
+        status: JQuery.Ajax.SuccessTextStatus,
+        request: JQuery.jqXHR<any>
+    ) => void;
+    onError?: (
+        error: JQuery.jqXHR<any>
+    ) => void
+};

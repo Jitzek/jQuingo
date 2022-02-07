@@ -3,7 +3,7 @@ import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 import { GridComponent } from "@components/Lingo/Grid/Grid";
 import { UserComponent } from "../User/User";
-import { jQuingoHTTP } from "@src/jquingo/network/http";
+import { jQuingoHTTP, jQuingoPostData } from "@src/jquingo/network/http";
 
 export class LingoComponent extends jQuingoComponent {
     private user!: UserComponent;
@@ -15,34 +15,20 @@ export class LingoComponent extends jQuingoComponent {
     );
 
     private handle_start() {
-        jQuingoHTTP.POST(
-            "http://localhost:8000/lingo/create",
-            "json",
-            {},
-            null,
-            (data, status, request) => {
+        jQuingoHTTP.POST({
+            url: "http://localhost:8000/lingo/create",
+            dataType: "json",
+            data: {},
+            onSucces: (data, status, request) => {
                 console.info("Success");
                 this.user = new UserComponent(
                     data["uuid"],
-                    data["boardId"],
+                    data["boardUuid"],
                     data["token"]
                 );
                 console.info(this.user);
-
-                jQuingoHTTP.POST(
-                    "http://localhost:8000/",
-                    "json",
-                    {},
-                    this.user.token,
-                    (data, status, request) => {
-                        console.info("Success again");
-                    },
-                    (error) => {
-                        console.error("Error");
-                    }
-                )
-            }
-        );
+            },
+        });
     }
 
     private handle_stop() {}
