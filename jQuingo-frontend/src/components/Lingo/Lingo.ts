@@ -26,6 +26,19 @@ export class LingoComponent extends jQuingoComponent {
             onSucces: (data, status, request) => {
                 this.user = new UserComponent(data["token"]);
                 this.startGame(data["first_letter"], data["rows"], data["columns"]);
+
+                jQuingoHTTP.POST({
+                    url: "http://localhost:8000/lingo/submit-guess",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: {
+                        guess: "ZWAAI"
+                    },
+                    token: this.user.token,
+                    onSucces: (data, status, request) => {
+                        
+                    }
+                });
             },
         });
     }
