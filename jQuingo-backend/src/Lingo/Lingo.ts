@@ -38,6 +38,10 @@ export class Lingo {
             return new LingoError("Word does not exist in our dictionary");
         }
 
+        if (board.guesses++ >= board.columns) {
+            return new LingoError("Guesses Exceeded");
+        }
+
         return this.getGuessResult(board, guess);
     }
 
@@ -47,15 +51,6 @@ export class Lingo {
     ): LingoTrue | LingoFalse {
         let result: GuessResult = [];
         for (let i = 0; i < board.word.length; i++) {
-            // If guess's letter doesn't occur somewhere within the word
-            // if (board.word.indexOf(guess[i]) === -1) {
-            //     // Grey
-            //     result.push({
-            //         letter: guess[i],
-            //         color: "grey",
-            //     });
-            //     continue;
-            // }
             // If guess's letter is in the same position as the word's letter
             if (guess[i] === board.word[i]) {
                 // Red
@@ -67,9 +62,6 @@ export class Lingo {
             }
             const letter_occurrence_board =
                 board.word.split(guess[i]).length - 1;
-            const letter_occurrence_guess = guess.split(guess[i]).length - 1;
-            const nth_guess_letter_occurrence =
-                guess.slice(0, i).split(guess[i]).length - 1;
             const amount_of_yellows = result.filter(
                 (guess_result) =>
                     guess_result.letter === guess[i] && guess_result.color

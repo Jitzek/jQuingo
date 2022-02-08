@@ -74,6 +74,13 @@
     margin-top: 1rem;
     background-color: var(--grey);
 }
+.submit-button.invalid,
+.submit-button.invalid:hover,
+.submit-button.invalid:focus {
+    color: var(--foreground-color);
+    background-color: var(--red);
+}
+
 
 .hidden {
     display: none;

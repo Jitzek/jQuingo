@@ -25,7 +25,7 @@ export async function getWord(
             });
 
             rl.on("line", (line) => {
-                if (line.toLowerCase().length === length && regex.test(line)) {
+                if (line.length === length && regex.test(line)) {
                     words.push(line);
                 }
             });
@@ -60,7 +60,7 @@ export async function wordExists(
             });
 
             rl.on("line", (line) => {
-                if (line === word.toLowerCase()) {
+                if (line.toUpperCase() === word.toUpperCase()) {
                     found = true;
                     rl.close();
                     rl.removeAllListeners();

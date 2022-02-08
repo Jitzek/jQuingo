@@ -130,7 +130,8 @@ app.post("/lingo/submit-guess", (req, res) => {
         )
         .then((guess_result) => {
             if (guess_result instanceof LingoError) {
-                res.status(401).send({
+                console.log(guess_result.message);
+                res.status(400).send({
                     message: guess_result.message,
                 });
                 return;

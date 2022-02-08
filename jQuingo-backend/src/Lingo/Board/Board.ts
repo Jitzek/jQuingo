@@ -5,6 +5,7 @@ import { User } from "../User/User";
 export class Board {
     public uuid!: string;
     public word!: string;
+    public guesses: number = 0;
     constructor(public user: User, public rows: number, public columns: number) {
         this.uuid = uuidv4();
     }
@@ -12,7 +13,6 @@ export class Board {
     public async init(): Promise<void> {
         // Create word with {columns} amount of letters
         this.word = (await getWord("dutch", this.columns, /^[a-zA-Z]*$/g)).toUpperCase();
-        this.word = "ZBBBA";
         console.log(this.word);
     }
 }

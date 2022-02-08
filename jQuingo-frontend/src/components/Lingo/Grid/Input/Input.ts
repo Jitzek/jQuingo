@@ -9,6 +9,7 @@ import style from "@css/Lingo/Grid/Input/input.css";
 
 export class InputComponent extends jQuingoComponent {
     public value: string = "";
+    private submit_button_animating = false;
 
     private handle_start_button_click: jQuingoEventHandlerFunction =
         jQuingoEventHandler.on((e: Event) => {
@@ -22,6 +23,26 @@ export class InputComponent extends jQuingoComponent {
 
     private handle_submit_button_click: jQuingoEventHandlerFunction =
         jQuingoEventHandler.on((e: Event) => {
+            if (!this.isValueValid()) {
+                if (this.submit_button_animating) return;
+                this.submit_button_animating = true;
+                const distance = 10;
+                const duration = 30;
+                const shakes = 6;
+
+                $("#submit-word").css("position", "relative");
+                for (let i = 1; i <= shakes; i++) {
+                    $("#submit-word")
+                        .animate({ left: distance * -1 }, duration / shakes / 4)
+                        .animate({ left: distance }, duration / shakes / 2)
+                        .animate({ left: 0 }, duration / shakes / 4, () => {
+                            if (i >= shakes)
+                                this.submit_button_animating = false;
+                        });
+                }
+                $("#submit-word").animate({ background_color: "red" }, 1000);
+                return;
+            }
             this.on_submit(this.value);
         });
 
@@ -30,6 +51,16 @@ export class InputComponent extends jQuingoComponent {
             this.value = ((e as InputEvent).target as HTMLInputElement).value;
         }
     );
+
+    private isValueValid(): boolean {
+        if (this.value.length !== this.word_length) {
+            return false;
+        }
+        if (!/^[a-zA-Z]*$/g.test(this.value)) {
+            return false;
+        }
+        return true;
+    }
 
     constructor(
         public word_length: number,
@@ -53,8 +84,10 @@ export class InputComponent extends jQuingoComponent {
           </div>
           <div class="${this.show_input ? "" : style["hidden"]}">
             <input oninput="${this.handle_input}" type="text" 
-            class="${style["input-field"]} ${this.value.trim().length === this.word_length ? style["valid"] : ""}" />
-            <button class="${style["submit-button"]}" 
+            class="${style["input-field"]} ${
+            this.isValueValid() ? style["valid"] : ""
+        }" />
+            <button id="submit-word" class="${style["submit-button"]} ${this.submit_button_animating ? style["invalid"] : ""}" 
               onclick="${this.handle_submit_button_click}">
               Submit
             </button>

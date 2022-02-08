@@ -21,31 +21,33 @@ export class LingoComponent extends jQuingoComponent {
             contentType: "application/json",
             data: {
                 rows: 5,
-                columns: 5
+                columns: 5,
             },
             onSucces: (data, status, request) => {
                 this.user = new UserComponent(data["token"]);
-                this.startGame(data["first_letter"], data["rows"], data["columns"]);
-
-                jQuingoHTTP.POST({
-                    url: "http://localhost:8000/lingo/submit-guess",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: {
-                        guess: "ZWAAI"
-                    },
-                    token: this.user.token,
-                    onSucces: (data, status, request) => {
-                        
-                    }
-                });
+                this.startGame(
+                    data["first_letter"],
+                    data["rows"],
+                    data["columns"]
+                );
             },
         });
     }
 
     private handle_stop() {}
 
-    private handle_submit(value: string) {}
+    private handle_submit(value: string) {
+        jQuingoHTTP.POST({
+            url: "http://localhost:8000/lingo/submit-guess",
+            dataType: "json",
+            contentType: "application/json",
+            data: {
+                guess: value,
+            },
+            token: this.user.token,
+            onSucces: (data, status, request) => {},
+        });
+    }
 
     constructor() {
         super();
@@ -75,7 +77,11 @@ export class LingoComponent extends jQuingoComponent {
         });
     }
 
-    public async startGame(first_letter: string, rows: number = 5, columns: number = 5) {
+    public async startGame(
+        first_letter: string,
+        rows: number = 5,
+        columns: number = 5
+    ) {
         this.grid_component.createGrid(first_letter, rows, columns);
     }
 
