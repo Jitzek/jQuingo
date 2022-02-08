@@ -14,4 +14,9 @@ export class ColumnComponent extends jQuingoComponent {
             </div>
         `;
   }
+
+  public setValue(letter: string, color: "grey" | "yellow" | "red") {
+    this.letter = letter;
+    this.color = color;
+  }
 }

@@ -6,6 +6,7 @@ export class Board {
     public uuid!: string;
     public word!: string;
     public guesses: number = 0;
+    public finished: boolean = false;
     constructor(public user: User, public rows: number, public columns: number) {
         this.uuid = uuidv4();
     }

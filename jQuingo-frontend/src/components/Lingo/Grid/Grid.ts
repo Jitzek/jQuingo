@@ -4,11 +4,13 @@ import style from "@css/Lingo/Grid/grid.css";
 import { RowComponent } from "@components/Lingo/Grid/Row";
 import { ColumnComponent } from "./Column";
 import { InputComponent } from "./Input/Input";
+import { GuessResult } from "../Lingo";
 
 export class GridComponent extends jQuingoComponent {
     private word_length: number = 5;
     private rows: number = 5;
     private row_components: RowComponent[] = [];
+    private current_row_index = 0;
     public animation_state: "creating" | "clearing" | "none" = "none";
     private input_component: InputComponent = new InputComponent(
         this.word_length,
@@ -28,6 +30,7 @@ export class GridComponent extends jQuingoComponent {
     private handle_stop() {
         if (!(this.row_components.length > 0)) return;
         this.clearGrid();
+        this.current_row_index = 0;
         this.on_stop();
     }
 
@@ -92,7 +95,15 @@ export class GridComponent extends jQuingoComponent {
         );
     }
 
+    public async setRowValue(
+        guess_result: GuessResult,
+        animation_duration: number
+    ) {
+        return await this.row_components[this.current_row_index++].setValue(guess_result, animation_duration);
+    }
+
     public createGrid(
+
         first_letter: string,
         word_length: number = 5,
         rows: number = 5,

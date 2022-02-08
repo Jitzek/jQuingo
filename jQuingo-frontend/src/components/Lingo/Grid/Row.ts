@@ -2,6 +2,7 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 
 import style from "@css/Lingo/Grid/row.css";
 import { ColumnComponent } from "@components/Lingo/Grid/Column";
+import { GuessResult } from "@components/Lingo/Lingo";
 
 export class RowComponent extends jQuingoComponent {
     public columns: ColumnComponent[] = [];
@@ -38,6 +39,25 @@ export class RowComponent extends jQuingoComponent {
             (resolve: (value: void | PromiseLike<void>) => void) => {
                 this.animation_state = "dissappear";
                 setTimeout(() => resolve(), this.animation_time);
+            }
+        );
+    }
+
+    public setValue(
+        guess_result: GuessResult,
+        animation_duration: number
+    ): Promise<void> {
+        return new Promise<void>(
+            (resolve: (value: void | PromiseLike<void>) => void) => {
+                for (let i = 0; i < this.columns.length; i++) {
+                    setTimeout(() => {
+                        this.columns[i].setValue(
+                            guess_result[i].letter,
+                            guess_result[i].color
+                        );
+                        if (i >= this.columns.length) resolve();
+                    }, animation_duration * i);
+                }
             }
         );
     }

@@ -45,7 +45,10 @@ export class LingoComponent extends jQuingoComponent {
                 guess: value,
             },
             token: this.user.token,
-            onSucces: (data, status, request) => {},
+            onSucces: (data, status, request) => {
+                console.log(data);
+                this.guessValue(data["guessedRight"], data["guessResult"], 250);
+            },
         });
     }
 
@@ -87,19 +90,21 @@ export class LingoComponent extends jQuingoComponent {
 
     public handleWordInput() {}
 
-    public guessValue(value: string, animation_time: number): Promise<boolean> {
-        return new Promise<boolean>(
-            (resolve: (value: boolean | PromiseLike<boolean>) => void) => {
-                // Determine if word was correct
-                //
-
+    public async guessValue(guessed_right: boolean, guess_result: GuessResult, animation_time: number = 250): Promise<void> {
+        return new Promise<void>(
+            (resolve: (value: void | PromiseLike<void>) => void) => {
                 // Animate
                 //
 
+                this.grid_component.setRowValue(guess_result, animation_time).then(() => {
+                    resolve();
+                });
+
+
                 // Wait for animation to finish
-                setTimeout(() => {
-                    resolve(true);
-                }, animation_time);
+                // setTimeout(() => {
+                //     resolve();
+                // }, animation_time);
             }
         );
     }
@@ -111,3 +116,8 @@ export class LingoComponent extends jQuingoComponent {
         // Give option to create new grid
     }
 }
+
+export type GuessResult = {
+    letter: string;
+    color: "red" | "yellow" | "grey";
+}[];

@@ -18,6 +18,7 @@ export class InputComponent extends jQuingoComponent {
 
     private handle_stop_button_click: jQuingoEventHandlerFunction =
         jQuingoEventHandler.on((e: Event) => {
+            this.clearInput();
             this.on_stop();
         });
 
@@ -30,9 +31,9 @@ export class InputComponent extends jQuingoComponent {
                 const duration = 30;
                 const shakes = 6;
 
-                $("#submit-word").css("position", "relative");
+                $(`#${style["submit-button-id"]}`).css("position", "relative");
                 for (let i = 1; i <= shakes; i++) {
-                    $("#submit-word")
+                    $(`#${style["submit-button-id"]}`)
                         .animate({ left: distance * -1 }, duration / shakes / 4)
                         .animate({ left: distance }, duration / shakes / 2)
                         .animate({ left: 0 }, duration / shakes / 4, () => {
@@ -40,11 +41,16 @@ export class InputComponent extends jQuingoComponent {
                                 this.submit_button_animating = false;
                         });
                 }
-                $("#submit-word").animate({ background_color: "red" }, 1000);
                 return;
             }
             this.on_submit(this.value);
+            this.clearInput();
         });
+
+    private clearInput() {
+        $(`#${style["input-id"]}`).val("");
+        this.value = "";
+    }
 
     private handle_input: jQuingoEventHandlerFunction = jQuingoEventHandler.on(
         (e: Event) => {
@@ -83,11 +89,11 @@ export class InputComponent extends jQuingoComponent {
             </button>
           </div>
           <div class="${this.show_input ? "" : style["hidden"]}">
-            <input oninput="${this.handle_input}" type="text" 
+            <input id="${style["input-id"]}" oninput="${this.handle_input}" type="text"
             class="${style["input-field"]} ${
             this.isValueValid() ? style["valid"] : ""
         }" />
-            <button id="submit-word" class="${style["submit-button"]} ${this.submit_button_animating ? style["invalid"] : ""}" 
+            <button id="${style["submit-button-id"]}" class="${style["submit-button"]} ${this.submit_button_animating ? style["invalid"] : ""}" 
               onclick="${this.handle_submit_button_click}">
               Submit
             </button>

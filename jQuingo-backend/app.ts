@@ -113,8 +113,6 @@ app.post("/lingo/create", (req, res) => {
  * User submits guess
  */
 app.post("/lingo/submit-guess", (req, res) => {
-    console.log(req.body.auth.uuid);
-
     if (!req.body.guess) {
         res.status(400).send({
             message: 'Required parameter: "guess" not found',
@@ -130,7 +128,6 @@ app.post("/lingo/submit-guess", (req, res) => {
         )
         .then((guess_result) => {
             if (guess_result instanceof LingoError) {
-                console.log(guess_result.message);
                 res.status(400).send({
                     message: guess_result.message,
                 });
