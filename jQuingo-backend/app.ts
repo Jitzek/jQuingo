@@ -77,7 +77,7 @@ app.post("/lingo/create", (req, res) => {
 
         res.status(200).send({
             token: token,
-            first_letter: 'A',
+            first_letter: board.word[0],
             rows: board.rows,
             columns: board.columns
         });

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { getWord, wordExists } from "../../WordManager/WordManager";
 import { User } from "../User/User";
 
 export class Board {
@@ -10,6 +11,8 @@ export class Board {
     }
 
     public async init(): Promise<void> {
-        // TODO: Create word with {columns} amount of letters
+        // Create word with {columns} amount of letters
+        this.word = (await getWord("dutch", this.columns, /^[a-zA-Z]*$/g)).toUpperCase();
+        console.log(this.word);
     }
 }

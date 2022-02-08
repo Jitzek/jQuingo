@@ -114,7 +114,7 @@ export class GridComponent extends jQuingoComponent {
                     // If first row, reveal first letter
                     if (i === 0) {
                         columns[0].letter = first_letter;
-                        columns[0].color = "red";
+                        columns[0].color = "grey";
                         // Fill rest of row with dots
                         for (let j = 1; j < this.word_length; j++) {
                             columns[j].letter = ".";
