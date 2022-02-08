@@ -3,7 +3,7 @@ import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 import { GridComponent } from "@components/Lingo/Grid/Grid";
 import { UserComponent } from "../User/User";
-import { jQuingoHTTP, jQuingoPostData } from "@src/jquingo/network/http";
+import { jQuingoHTTP } from "@src/jquingo/network/http";
 
 export class LingoComponent extends jQuingoComponent {
     private user!: UserComponent;
@@ -18,15 +18,14 @@ export class LingoComponent extends jQuingoComponent {
         jQuingoHTTP.POST({
             url: "http://localhost:8000/lingo/create",
             dataType: "json",
-            data: {},
+            contentType: "application/json",
+            data: {
+                rows: 5,
+                columns: 5
+            },
             onSucces: (data, status, request) => {
-                console.info("Success");
-                this.user = new UserComponent(
-                    data["uuid"],
-                    data["boardUuid"],
-                    data["token"]
-                );
-                console.info(this.user);
+                this.user = new UserComponent(data["token"]);
+                this.startGame(data["first_letter"], data["rows"], data["columns"]);
             },
         });
     }
@@ -63,8 +62,8 @@ export class LingoComponent extends jQuingoComponent {
         });
     }
 
-    public async startGame(rows: number = 5) {
-        this.grid_component.createGrid();
+    public async startGame(first_letter: string, rows: number = 5, columns: number = 5) {
+        this.grid_component.createGrid(first_letter, rows, columns);
     }
 
     public handleWordInput() {}

@@ -6,7 +6,8 @@ export class jQuingoHTTP {
             url: postData.url,
             type: "POST",
             dataType: postData.dataType,
-            data: postData.data || {},
+            contentType: postData.contentType,
+            data: JSON.stringify(postData.data) || {},
             success: postData.onSucces,
             error: postData.onError,
             headers: {
@@ -19,6 +20,7 @@ export class jQuingoHTTP {
 export type jQuingoPostData = {
     url: string;
     dataType: string;
+    contentType: string;
     data?: any;
     token?: string;
     onSucces?: (

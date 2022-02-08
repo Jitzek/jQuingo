@@ -22,7 +22,6 @@ export class GridComponent extends jQuingoComponent {
 
     private handle_start() {
         if (this.row_components.length > 0) return;
-        this.createGrid();
         this.on_start();
     }
 
@@ -94,6 +93,7 @@ export class GridComponent extends jQuingoComponent {
     }
 
     public createGrid(
+        first_letter: string,
         word_length: number = 5,
         rows: number = 5,
         total_animation_time = 1000
@@ -113,7 +113,7 @@ export class GridComponent extends jQuingoComponent {
                     );
                     // If first row, reveal first letter
                     if (i === 0) {
-                        columns[0].letter = "L";
+                        columns[0].letter = first_letter;
                         columns[0].color = "red";
                         // Fill rest of row with dots
                         for (let j = 1; j < this.word_length; j++) {
