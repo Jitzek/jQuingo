@@ -7,13 +7,13 @@ import { InputComponent } from "./Input/Input";
 import { GuessResult } from "../Lingo";
 
 export class GridComponent extends jQuingoComponent {
-    private word_length: number = 5;
-    private rows: number = 5;
+    public columns: number = 5;
+    public rows: number = 5;
     private row_components: RowComponent[] = [];
-    private current_row_index = 0;
+    public current_row_index = 0;
     public animation_state: "creating" | "clearing" | "none" = "none";
     private input_component: InputComponent = new InputComponent(
-        this.word_length,
+        this.columns,
         false,
         false,
         false,
@@ -48,7 +48,7 @@ export class GridComponent extends jQuingoComponent {
     }
 
     public override template(): string {
-        this.input_component.word_length = this.word_length;
+        this.input_component.word_length = this.columns;
         this.input_component.show_start = this.row_components.length <= 0;
         this.input_component.show_stop =
             this.row_components.length > 0 &&
@@ -98,19 +98,21 @@ export class GridComponent extends jQuingoComponent {
     public async setRowValue(
         guess_result: GuessResult,
         animation_duration: number
-    ) {
-        return await this.row_components[this.current_row_index++].setValue(guess_result, animation_duration);
+    ): Promise<void> {
+        return await this.row_components[this.current_row_index++].setValue(
+            guess_result,
+            animation_duration
+        );
     }
 
     public createGrid(
-
         first_letter: string,
-        word_length: number = 5,
+        columns: number = 5,
         rows: number = 5,
         total_animation_time = 1000
     ): Promise<void> {
         this.animation_state = "creating";
-        this.word_length = word_length;
+        this.columns = columns;
         this.rows = rows;
 
         return new Promise<void>(
@@ -119,7 +121,7 @@ export class GridComponent extends jQuingoComponent {
                 for (let i = 0; i < this.rows; i++) {
                     // Fill array with empty columns
                     let columns = Array.from(
-                        { length: this.word_length },
+                        { length: this.columns },
                         () => new ColumnComponent("", "grey")
                     );
                     // If first row, reveal first letter
@@ -127,7 +129,7 @@ export class GridComponent extends jQuingoComponent {
                         columns[0].letter = first_letter;
                         columns[0].color = "grey";
                         // Fill rest of row with dots
-                        for (let j = 1; j < this.word_length; j++) {
+                        for (let j = 1; j < this.columns; j++) {
                             columns[j].letter = ".";
                         }
                     }

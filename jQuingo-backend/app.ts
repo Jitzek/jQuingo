@@ -126,17 +126,17 @@ app.post("/lingo/submit-guess", (req, res) => {
             req.body.auth.uuid,
             req.body.guess
         )
-        .then((guess_result) => {
-            if (guess_result instanceof LingoError) {
+        .then((lingo_result) => {
+            if (lingo_result instanceof LingoError) {
                 res.status(400).send({
-                    message: guess_result.message,
+                    message: lingo_result.message,
                 });
                 return;
             }
 
             res.status(200).send({
-                guessedRight: guess_result instanceof LingoTrue,
-                guessResult: (guess_result as LingoTrue | LingoFalse)
+                guessedRight: lingo_result instanceof LingoTrue,
+                guessResult: (lingo_result as LingoTrue | LingoFalse)
                     .guess_result,
             });
             return;

@@ -22,6 +22,18 @@ export class InputComponent extends jQuingoComponent {
             this.on_stop();
         });
 
+    constructor(
+        public word_length: number,
+        public show_start: boolean = false,
+        public show_stop: boolean = false,
+        public show_input: boolean = false,
+        private on_start: () => void = () => {},
+        private on_stop: () => void = () => {},
+        private on_submit: (value: string) => void = () => {}
+    ) {
+        super();
+    }
+
     private submit() {
         if (!this.isValueValid()) {
             if (this.submit_button_animating) return;
@@ -75,18 +87,6 @@ export class InputComponent extends jQuingoComponent {
             return false;
         }
         return true;
-    }
-
-    constructor(
-        public word_length: number,
-        public show_start: boolean = false,
-        public show_stop: boolean = false,
-        public show_input: boolean = false,
-        private on_start: () => void = () => {},
-        private on_stop: () => void = () => {},
-        private on_submit: (value: string) => void = () => {}
-    ) {
-        super();
     }
 
     public override template(): string {

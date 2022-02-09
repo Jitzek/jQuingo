@@ -67,8 +67,10 @@ export class RowComponent extends jQuingoComponent {
                         else if (guess_result[i].color === "red")
                             audio.src = lingo_red_mp3;
                         audio.play();
-                        
-                        if (i >= this.columns.length) resolve();
+
+                        if (i + 1 >= this.columns.length) {
+                            resolve();
+                        }
                     }, animation_duration * i);
                 }
             }
