@@ -4,10 +4,12 @@ import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 import { GridComponent } from "@components/Lingo/Grid/Grid";
 import { UserComponent } from "../User/User";
 import { jQuingoHTTP } from "@src/jquingo/network/http";
+import lingo_theme_song_mp3 from "@mp3/lingo-theme-song.mp3";
 
 export class LingoComponent extends jQuingoComponent {
     private user!: UserComponent;
     private topbar_component = new TopbarComponent();
+    private theme_song = new Audio(lingo_theme_song_mp3);
     private grid_component = new GridComponent(
         () => this.handle_start(),
         () => this.handle_stop(),
@@ -34,7 +36,17 @@ export class LingoComponent extends jQuingoComponent {
         });
     }
 
-    private handle_stop() {}
+    private handle_stop() {
+        const interval = setInterval(() => {
+            if (this.theme_song.volume <= 0) {
+                this.theme_song.pause();
+                this.theme_song.currentTime = 0;
+                clearInterval(interval);
+            }
+            if (this.theme_song.volume - 0.01 <= 0) this.theme_song.volume = 0;
+            else this.theme_song.volume -= 0.01;
+        }, 50);
+    }
 
     private handle_submit(value: string) {
         jQuingoHTTP.POST({
@@ -54,6 +66,7 @@ export class LingoComponent extends jQuingoComponent {
 
     constructor() {
         super();
+        this.theme_song.loop = true;
     }
 
     protected override init() {}
@@ -74,32 +87,38 @@ export class LingoComponent extends jQuingoComponent {
         `;
     }
 
-    private stopGame() {
-        this.grid_component.clearGrid().then(() => {
-            this.grid_component = new GridComponent();
-        });
-    }
-
     public async startGame(
         first_letter: string,
         rows: number = 5,
         columns: number = 5
     ) {
         this.grid_component.createGrid(first_letter, rows, columns);
+        this.theme_song.volume = 0;
+        this.theme_song.currentTime = 0;
+        this.theme_song.play();
+        const interval = setInterval(() => {
+            if (this.theme_song.volume >= 0.25)
+                clearInterval(interval);
+            if (this.theme_song.volume + 0.01 >= 0.25)
+                this.theme_song.volume = 0.25;
+            else this.theme_song.volume += 0.01;
+        }, 50);
     }
 
     public handleWordInput() {}
 
-    public async guessValue(guessed_right: boolean, guess_result: GuessResult, animation_time: number = 250): Promise<void> {
+    public async guessValue(
+        guessed_right: boolean,
+        guess_result: GuessResult,
+        animation_time: number = 250
+    ): Promise<void> {
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {
-                // Animate
-                //
-
-                this.grid_component.setRowValue(guess_result, animation_time).then(() => {
-                    resolve();
-                });
-
+                this.grid_component
+                    .setRowValue(guess_result, animation_time)
+                    .then(() => {
+                        resolve();
+                    });
 
                 // Wait for animation to finish
                 // setTimeout(() => {
@@ -109,12 +128,12 @@ export class LingoComponent extends jQuingoComponent {
         );
     }
 
-    public async endGame() {
-        // Clear grid
-        await this.grid_component.clearGrid();
+    // public async endGame() {
+    //     // Clear grid
+    //     await this.grid_component.clearGrid();
 
-        // Give option to create new grid
-    }
+    //     // Give option to create new grid
+    // }
 }
 
 export type GuessResult = {

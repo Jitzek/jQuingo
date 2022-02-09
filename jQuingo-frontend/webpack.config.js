@@ -36,7 +36,7 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
         }),
-        new LodashModuleReplacementPlugin()
+        new LodashModuleReplacementPlugin(),
     ],
     module: {
         rules: [
@@ -60,7 +60,7 @@ module.exports = {
                             // Probably not necessary for our purposes
                             import: true,
                             // "modules" enables support for modules, used for scoped CSS
-                            modules: true
+                            modules: true,
                         },
                     },
                 ],
@@ -75,6 +75,14 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: "asset/resource",
                 include: path.resolve(__dirname, "static", "fonts"),
+            },
+            {
+                test: /\.mp3$/,
+                include: path.resolve(__dirname, "static", "mp3"),
+                loader: "file-loader",
+                options: {
+                    name: "[path][name].[ext]",
+                },
             },
         ],
     },
@@ -106,6 +114,7 @@ module.exports = {
             "@css": path.resolve(__dirname, "static", "css"),
             "@fonts": path.resolve(__dirname, "static", "fonts"),
             "@images": path.resolve(__dirname, "static", "images"),
+            "@mp3": path.resolve(__dirname, "static", "mp3"),
         },
         extensions: [
             ".ts",

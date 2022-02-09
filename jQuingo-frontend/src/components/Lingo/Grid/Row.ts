@@ -3,6 +3,9 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 import style from "@css/Lingo/Grid/row.css";
 import { ColumnComponent } from "@components/Lingo/Grid/Column";
 import { GuessResult } from "@components/Lingo/Lingo";
+import lingo_red_mp3 from "@mp3/lingo-red.mp3";
+import lingo_yellow_mp3 from "@mp3/lingo-yellow.mp3";
+import lingo_grey_mp3 from "@mp3/lingo-grey.mp3";
 
 export class RowComponent extends jQuingoComponent {
     public columns: ColumnComponent[] = [];
@@ -55,6 +58,16 @@ export class RowComponent extends jQuingoComponent {
                             guess_result[i].letter,
                             guess_result[i].color
                         );
+                        let audio = new Audio();
+                        audio.volume = 0.5;
+                        if (guess_result[i].color === "grey")
+                            audio.src = lingo_grey_mp3;
+                        else if (guess_result[i].color === "yellow")
+                            audio.src = lingo_yellow_mp3;
+                        else if (guess_result[i].color === "red")
+                            audio.src = lingo_red_mp3;
+                        audio.play();
+                        
                         if (i >= this.columns.length) resolve();
                     }, animation_duration * i);
                 }
