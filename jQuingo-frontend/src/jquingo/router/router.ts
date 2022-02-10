@@ -58,10 +58,10 @@ $(document).on({
   },
   // When a user clicks on an anchor element with a href, provide our own logic
   click: (e: MouseEvent) => {
-    if (!(e.target instanceof HTMLAnchorElement)) {
+    if (!e.target || !($(e.target).attr('href'))) {
       return;
     }
     e.preventDefault();
-    router.routeTo(e.target.href);
+    router.routeTo($(e.target).attr('href') || '/');
   },
 });

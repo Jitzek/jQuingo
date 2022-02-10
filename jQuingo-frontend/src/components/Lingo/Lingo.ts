@@ -2,18 +2,25 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 import style from "@css/Lingo/lingo.css";
 import { TopbarComponent } from "@components/Lingo/Topbar/Topbar";
 import { GridComponent } from "@components/Lingo/Grid/Grid";
-import { UserComponent } from "../User/User";
+import { UserComponent } from "@components/User/User";
+import { SettingsComponent } from "@src/components/Settings/Settings";
 import { jQuingoHTTP } from "@src/jquingo/network/http";
 import lingo_theme_song_mp3 from "@mp3/lingo-theme-song.mp3";
 import lingo_win_mp3 from "@mp3/lingo-win.mp3";
 import lingo_fail_mp3 from "@mp3/lingo-fail.mp3";
+import {
+    amount_of_columns_observable,
+    amount_of_rows_observable,
+} from "@src/observables/LingoSettings";
 
 export class LingoComponent extends jQuingoComponent {
     private user!: UserComponent;
     private topbar_component = new TopbarComponent();
+    private settings_component = new SettingsComponent();
     private theme_song = new Audio(lingo_theme_song_mp3);
     private rows: number = 5;
     private columns: number = 5;
+    private game_in_progress = false;
     private grid_component = new GridComponent(
         () => this.handle_start(),
         () => this.handle_stop(),
@@ -33,15 +40,18 @@ export class LingoComponent extends jQuingoComponent {
                 this.user = new UserComponent(data["token"]);
                 this.startGame(
                     data["first_letter"],
-                    data["rows"],
-                    data["columns"]
+                    this.rows,
+                    this.columns
                 );
+                this.game_in_progress = true;
             },
         });
     }
 
     private handle_stop() {
-        this.stopMusic();
+        this.stopMusic().then(() => {
+            this.game_in_progress = false;
+        });
     }
 
     private handle_submit(value: string) {
@@ -84,6 +94,14 @@ export class LingoComponent extends jQuingoComponent {
     constructor() {
         super();
         this.theme_song.loop = true;
+        amount_of_rows_observable.subscribe((new_value) => {
+            if (new_value === -1) new_value = 5;
+            this.rows = new_value;
+        });
+        amount_of_columns_observable.subscribe((new_value) => {
+            if (new_value === -1) new_value = 5;
+            this.columns = new_value;
+        });
     }
 
     protected override init() {}
@@ -100,6 +118,9 @@ export class LingoComponent extends jQuingoComponent {
               <div class="${style["grid-container"]}">
                 ${this.grid_component.template()}
               </div>
+            </div>
+            <div class="${style["settings-container"]} ${this.game_in_progress ? style["hidden"] : ''}">
+                ${this.settings_component.template()}
             </div>
         `;
     }

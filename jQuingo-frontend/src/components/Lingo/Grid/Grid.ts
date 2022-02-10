@@ -107,13 +107,13 @@ export class GridComponent extends jQuingoComponent {
 
     public createGrid(
         first_letter: string,
-        columns: number = 5,
         rows: number = 5,
+        columns: number = 5,
         total_animation_time = 1000
     ): Promise<void> {
         this.animation_state = "creating";
-        this.columns = columns;
         this.rows = rows;
+        this.columns = columns;
 
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {

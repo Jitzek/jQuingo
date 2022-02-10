@@ -14,9 +14,9 @@ export class SettingsToggleButtonComponent extends jQuingoComponent {
 
     public override template(): string {
         return `
-            <button class="settings-toggle-button ${style["settings-toggle-button"]}">
+            <a class="settings-toggle-button ${style["settings-toggle-button"]}">
                 ${this.settings_icon.template()}
-            </button>
+            </a>
         `;
     }
 }

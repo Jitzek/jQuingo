@@ -35,7 +35,7 @@ export class Lingo {
             );
         }
 
-        if (board.guesses++ >= board.columns) {
+        if (board.guesses++ >= board.rows) {
             return new LingoError("Guesses Exceeded");
         }
 

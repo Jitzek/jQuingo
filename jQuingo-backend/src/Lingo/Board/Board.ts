@@ -14,6 +14,5 @@ export class Board {
     public async init(): Promise<void> {
         // Create word with {columns} amount of letters
         this.word = (await getWord("dutch", this.columns, /^[a-zA-Z]*$/g)).toUpperCase();
-        console.log(this.word);
     }
 }

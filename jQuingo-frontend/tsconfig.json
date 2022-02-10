@@ -1,6 +1,13 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*", "public/*", "build/*", "dist/*"],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "public/*",
+    "build/*",
+    "dist/*"
+  ],
   "compilerOptions": {
     "outDir": "./dist/",
     "strict": true,
@@ -16,13 +23,27 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"],
-      "@jquingo/*": ["src/jquingo/*"],
-      "@components/*": ["src/components/*"],
-      "@routes/*": ["src/routes/*"],
-      "@css/*": ["static/css/*"],
-      "@fonts/*": ["static/fonts/*"],
-      "@images/*": ["static/images/*"]
+      "@src/*": [
+        "src/*"
+      ],
+      "@jquingo/*": [
+        "src/jquingo/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@routes/*": [
+        "src/routes/*"
+      ],
+      "@css/*": [
+        "static/css/*"
+      ],
+      "@fonts/*": [
+        "static/fonts/*"
+      ],
+      "@images/*": [
+        "static/images/*"
+      ]
     },
     /** Allows us to write an import like:
       import Something from "module"
@@ -34,6 +55,10 @@
     // We also use it for other modules, though these modules do not *require* it
     // The alternative would be to write the default export ourselves
     "allowSyntheticDefaultImports": true,
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   }
 }

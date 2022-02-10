@@ -5,7 +5,6 @@ import path from "path";
 import { config } from "dotenv";
 import { Lingo, LingoError, LingoFalse, LingoTrue } from "./src/Lingo/Lingo";
 import { User } from "./src/Lingo/User/User";
-import { json } from "body-parser";
 
 // exports JWT_SECRET_KEY
 config({ path: "./.secret.env" });
@@ -21,13 +20,13 @@ app.use(
     express.static(path.join(__dirname, "../", "jQuingo-frontend", "dist"))
 );
 
-app.use(json());
+app.use(express.json());
 
 /**
  * Middleware which gets the JWT token from the headers (Authorization: Bearer [token])
  * and verifies it using the given secret key.
  */
-app.use((req, res, next) => {
+app.post('*',(req, res, next) => {
     if (req.path === "/lingo/create") {
         next();
         return;
@@ -63,17 +62,12 @@ app.get("*", (req, res) => {
     );
 });
 
-app.post("/", (req, res) => {
-    console.info(req.header("Authorization"));
-});
-
 const lingo = new Lingo();
 
 /**
  * Create Lingo Board
  */
 app.post("/lingo/create", (req, res) => {
-    console.log(req.body);
     if (!req.body.rows || !req.body.columns) {
         res.status(400).send({
             message: 'Required parameters: "rows" and "columns" not found',
@@ -106,6 +100,8 @@ app.post("/lingo/create", (req, res) => {
             rows: board.rows,
             columns: board.columns,
         });
+
+        console.info(`[server]: Created board with word: ${board.word}`);
     });
 });
 
@@ -144,5 +140,5 @@ app.post("/lingo/submit-guess", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`[server]: Server is running at http://localhost:${PORT}`);
+    console.info(`[server]: Server is running at http://localhost:${PORT}`);
 });
