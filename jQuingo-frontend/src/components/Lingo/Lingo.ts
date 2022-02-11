@@ -12,6 +12,7 @@ import {
     amount_of_columns_observable,
     amount_of_rows_observable,
 } from "@src/observables/LingoSettings";
+import { fadeIn, fadeOut, play, SoundIdentifier } from "@src/observables/SoundPlayer";
 
 export class LingoComponent extends jQuingoComponent {
     private user!: UserComponent;
@@ -74,9 +75,7 @@ export class LingoComponent extends jQuingoComponent {
                     // Succesfully guessed word
                     if (guessed_right) {
                         this.stopMusic(0).then(() => {
-                            const lingo_win_audio = new Audio(lingo_win_mp3);
-                            lingo_win_audio.volume = 0.5;
-                            lingo_win_audio.play();
+                            play(SoundIdentifier.LINGO_WIN, 0.25, 0);
                         });
                     }
                     // Failed to guess word and out of attempts
@@ -84,9 +83,7 @@ export class LingoComponent extends jQuingoComponent {
                         this.grid_component.current_row_index >= this.rows
                     ) {
                         this.stopMusic(0).then(() => {
-                            const lingo_fail_audio = new Audio(lingo_fail_mp3);
-                            lingo_fail_audio.volume = 0.5;
-                            lingo_fail_audio.play();
+                            play(SoundIdentifier.LINGO_FAIL, 0.25, 0);
                         });
                     }
                     // Didn't guess word but not out of attempts
@@ -132,41 +129,12 @@ export class LingoComponent extends jQuingoComponent {
         `;
     }
 
-    private startMusic(fadeInDuration: number = 1000): Promise<void> {
-        return new Promise<void>(
-            (resolve: (value: void | PromiseLike<void>) => void) => {
-                this.theme_song.volume = 0;
-                this.theme_song.currentTime = 0;
-                this.theme_song.play();
-                const interval = setInterval(() => {
-                    if (this.theme_song.volume >= 0.25) {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                    if (this.theme_song.volume + 0.01 >= 0.25)
-                        this.theme_song.volume = 0.25;
-                    else this.theme_song.volume += 0.01;
-                }, fadeInDuration / (0.25 / 0.01));
-            }
-        );
+    private async startMusic(fadeInDuration: number = 1000): Promise<void> {
+        return await fadeIn(SoundIdentifier.LINGO_THEME_SONG, 0.25, fadeInDuration);
     }
 
     private async stopMusic(fadeOutDuration: number = 1000): Promise<void> {
-        return new Promise<void>(
-            (resolve: (value: void | PromiseLike<void>) => void) => {
-                const interval = setInterval(() => {
-                    if (this.theme_song.volume <= 0) {
-                        this.theme_song.pause();
-                        this.theme_song.currentTime = 0;
-                        clearInterval(interval);
-                        resolve();
-                    }
-                    if (this.theme_song.volume - 0.01 <= 0)
-                        this.theme_song.volume = 0;
-                    else this.theme_song.volume -= 0.01;
-                }, fadeOutDuration / (0.25 / 0.01));
-            }
-        );
+        return await fadeOut(SoundIdentifier.LINGO_THEME_SONG, 0, fadeOutDuration);
     }
 
     public async startGame(

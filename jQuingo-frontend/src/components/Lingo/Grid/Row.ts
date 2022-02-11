@@ -6,6 +6,7 @@ import { RowValue } from "@components/Lingo/Lingo";
 import lingo_red_mp3 from "@mp3/lingo-red.mp3";
 import lingo_yellow_mp3 from "@mp3/lingo-yellow.mp3";
 import lingo_grey_mp3 from "@mp3/lingo-grey.mp3";
+import { play, SoundIdentifier } from "@src/observables/SoundPlayer";
 
 export class RowComponent extends jQuingoComponent {
     public columns: ColumnComponent[] = [];
@@ -58,15 +59,12 @@ export class RowComponent extends jQuingoComponent {
                             guess_result[i].letter,
                             guess_result[i].color
                         );
-                        let audio = new Audio();
-                        audio.volume = 0.5;
                         if (guess_result[i].color === "grey")
-                            audio.src = lingo_grey_mp3;
+                            play(SoundIdentifier.LINGO_GREY, 0.5, 0, true);
                         else if (guess_result[i].color === "yellow")
-                            audio.src = lingo_yellow_mp3;
+                            play(SoundIdentifier.LINGO_YELLOW, 0.5, 0, true);
                         else if (guess_result[i].color === "red")
-                            audio.src = lingo_red_mp3;
-                        audio.play();
+                            play(SoundIdentifier.LINGO_RED, 0.5, 0, true);
 
                         if (i + 1 >= this.columns.length) {
                             resolve();
