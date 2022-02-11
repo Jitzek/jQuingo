@@ -65,19 +65,22 @@ export class LingoComponent extends jQuingoComponent {
             token: this.user.token,
             onSucces: (data, status, request) => {
                 const guessed_right = data["guessedRight"] || false;
-                const guess_result: GuessResult = data["guessResult"] || [];
+                const guess_result: RowValue = data["guessResult"] || [];
                 if (guess_result === []) {
                     // Something went wrong
                     return;
                 }
                 this.guessValue(guessed_right, guess_result, 250).then(() => {
+                    // Succesfully guessed word
                     if (guessed_right) {
                         this.stopMusic(0).then(() => {
                             const lingo_win_audio = new Audio(lingo_win_mp3);
                             lingo_win_audio.volume = 0.5;
                             lingo_win_audio.play();
                         });
-                    } else if (
+                    }
+                    // Failed to guess word and out of attempts
+                    else if (
                         this.grid_component.current_row_index >= this.rows
                     ) {
                         this.stopMusic(0).then(() => {
@@ -85,6 +88,10 @@ export class LingoComponent extends jQuingoComponent {
                             lingo_fail_audio.volume = 0.5;
                             lingo_fail_audio.play();
                         });
+                    }
+                    // Didn't guess word but not out of attempts
+                    else {
+                        this.grid_component.setNextRowHint();
                     }
                 });
             },
@@ -175,13 +182,13 @@ export class LingoComponent extends jQuingoComponent {
 
     public async guessValue(
         guessed_right: boolean,
-        guess_result: GuessResult,
+        guess_result: RowValue,
         animation_time: number = 250
     ): Promise<void> {
         return new Promise<void>(
             (resolve: (value: void | PromiseLike<void>) => void) => {
                 this.grid_component
-                    .setRowValue(guess_result, animation_time)
+                    .insertRowGuess(guess_result, animation_time)
                     .then(() => {
                         resolve();
                     });
@@ -197,7 +204,7 @@ export class LingoComponent extends jQuingoComponent {
     // }
 }
 
-export type GuessResult = {
+export type RowValue = {
     letter: string;
     color: "red" | "yellow" | "grey";
 }[];

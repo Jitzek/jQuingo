@@ -2,7 +2,7 @@ import { jQuingoComponent } from "@src/jquingo/component/component";
 
 import style from "@css/Lingo/Grid/row.css";
 import { ColumnComponent } from "@components/Lingo/Grid/Column";
-import { GuessResult } from "@components/Lingo/Lingo";
+import { RowValue } from "@components/Lingo/Lingo";
 import lingo_red_mp3 from "@mp3/lingo-red.mp3";
 import lingo_yellow_mp3 from "@mp3/lingo-yellow.mp3";
 import lingo_grey_mp3 from "@mp3/lingo-grey.mp3";
@@ -46,8 +46,8 @@ export class RowComponent extends jQuingoComponent {
         );
     }
 
-    public setValue(
-        guess_result: GuessResult,
+    public insertGuess(
+        guess_result: RowValue,
         animation_duration: number
     ): Promise<void> {
         return new Promise<void>(
@@ -75,6 +75,12 @@ export class RowComponent extends jQuingoComponent {
                 }
             }
         );
+    }
+
+    public setValue(new_value: string[]) {
+        for (let i = 0; i < this.columns.length; i++) {
+            this.columns[i].letter = new_value[i];
+        }
     }
 
     private concatColumnComponents(): string {

@@ -4,7 +4,7 @@ import style from "@css/Lingo/Grid/grid.css";
 import { RowComponent } from "@components/Lingo/Grid/Row";
 import { ColumnComponent } from "./Column";
 import { InputComponent } from "./Input/Input";
-import { GuessResult } from "../Lingo";
+import { RowValue } from "@components/Lingo/Lingo";
 
 export class GridComponent extends jQuingoComponent {
     public columns: number = 5;
@@ -12,6 +12,7 @@ export class GridComponent extends jQuingoComponent {
     private row_components: RowComponent[] = [];
     public current_row_index = 0;
     public animation_state: "creating" | "clearing" | "none" = "none";
+    private first_letter = "";
     private input_component: InputComponent = new InputComponent(
         this.columns,
         false,
@@ -95,14 +96,28 @@ export class GridComponent extends jQuingoComponent {
         );
     }
 
-    public async setRowValue(
-        guess_result: GuessResult,
+    public async insertRowGuess(
+        guess_result: RowValue,
         animation_duration: number
     ): Promise<void> {
-        return await this.row_components[this.current_row_index++].setValue(
+        await this.row_components[this.current_row_index++].insertGuess(
             guess_result,
             animation_duration
         );
+    }
+
+    public setNextRowHint() {
+        const known_letters: string[] = [this.first_letter];
+        this.row_components.forEach((row) => {
+            for (let i = 0; i < row.columns.length; i++) {
+                if (row.columns[i].color === "red")
+                    known_letters[i] = row.columns[i].letter;
+            }
+        });
+        for (let i = 0; i < this.row_components[0].columns.length; i++) {
+            if (!known_letters[i]) known_letters[i] = ".";
+        }
+        this.row_components[this.current_row_index].setValue(known_letters);
     }
 
     public createGrid(
@@ -111,6 +126,7 @@ export class GridComponent extends jQuingoComponent {
         columns: number = 5,
         total_animation_time = 1000
     ): Promise<void> {
+        this.first_letter = first_letter;
         this.animation_state = "creating";
         this.rows = rows;
         this.columns = columns;
