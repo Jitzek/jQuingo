@@ -15,7 +15,7 @@
 .help-toggle-button .help-toggle-button-content {
     padding: 0;
     margin: 0;
-    transform: translateY(2px);
+    transform: translateY(-3px);
 
     pointer-events: none;
 }
