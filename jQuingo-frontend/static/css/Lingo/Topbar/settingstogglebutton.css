@@ -1,0 +1,22 @@
+.settings-toggle-button {
+    display: inline-block;
+    background: none;
+    border: none;
+    width: 32px;
+    height: 32px;
+    color: var(--foreground-color);
+    cursor: pointer;
+}
+
+.settings-toggle-button svg {
+    fill: var(--foreground-color);
+    width: 32px;
+    transform: translateY(2px);
+    transition: transform 0.75s ease-in-out;
+    pointer-events: none;
+}
+
+.settings-toggle-button:hover svg,
+.settings-toggle-button:focus svg {
+    transform: rotate(180deg) translateY(-2px);
+}

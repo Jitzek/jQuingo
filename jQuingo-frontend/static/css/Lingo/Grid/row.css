@@ -1,0 +1,36 @@
+.row {
+    display: grid;
+    gap: 5px;
+    grid-auto-flow: column;
+    width: 100%;
+}
+
+.row.appear {
+    animation: appear ease-out forwards;
+}
+
+.row.dissappear {
+    animation: dissappear ease-out forwards;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 100;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes dissappear {
+    from {
+        opacity: 100;
+        transform: translateX(0%);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}

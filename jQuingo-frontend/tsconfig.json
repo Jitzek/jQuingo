@@ -1,0 +1,64 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules/*",
+    "public/*",
+    "build/*",
+    "dist/*"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "strict": true,
+    "noImplicitAny": true,
+    // "module": "es6",
+    // Required for dynamic imports
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    // https://webpack.js.org/guides/development/#using-source-maps
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@jquingo/*": [
+        "src/jquingo/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@routes/*": [
+        "src/routes/*"
+      ],
+      "@css/*": [
+        "static/css/*"
+      ],
+      "@fonts/*": [
+        "static/fonts/*"
+      ],
+      "@images/*": [
+        "static/images/*"
+      ]
+    },
+    /** Allows us to write an import like:
+      import Something from "module"
+      Instead of:
+      import * as Something from "module"
+    */
+    // This is needed if a module does not have a default export
+    // In our case lodash-es
+    // We also use it for other modules, though these modules do not *require* it
+    // The alternative would be to write the default export ourselves
+    "allowSyntheticDefaultImports": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  }
+}
