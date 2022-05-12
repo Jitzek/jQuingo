@@ -1,5 +1,4 @@
 import express from "express";
-import jwt from "express-jwt";
 import jsonwebtoken from "jsonwebtoken";
 import path from "path";
 import { config } from "dotenv";
@@ -45,15 +44,6 @@ app.post('*',(req, res, next) => {
         }
     );
 });
-// app.use(
-//     jwt({
-//         secret: `${process.env.JWT_SECRET_KEY}`,
-//         algorithms: ["HS256"],
-//         requestProperty: "user"
-//     }).unless({
-//         path: ["/lingo/create"],
-//     })
-// );
 
 // Return index.html of jQuingo
 app.get("*", (req, res) => {

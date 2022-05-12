@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 
 // Removes unused lodash features
+// See https://github.com/lodash/lodash-webpack-plugin#feature-sets
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 module.exports = {
@@ -24,12 +25,13 @@ module.exports = {
         clean: true,
     },
     plugins: [
+        // Creates dist/index.html
+        // The plugin will generate an HTML5 file that includes all webpack bundles in the body using script tags.
         new HtmlWebpackPlugin({
             title: "jQuingo",
         }),
-        // MiniCssExtractPlugin extracts the (imported) css from each javascript/typescript
-        // And bundles them into one .css file
-        // style-loader would take the (imported) css and inject it into the DOM in seperate <style></style> elements
+        // MiniCssExtractPlugin extracts the (imported) css from each javascript/typescript and bundles them into one .css file
+        // [UNUSED] style-loader would take the (imported) css and inject it into the DOM in seperate <style></style> elements
         new MiniCssExtractPlugin(),
         // Inject implicit globals for jquery
         new webpack.ProvidePlugin({
@@ -49,7 +51,7 @@ module.exports = {
                 test: /\.css$/i,
                 // css-loader collects CSS from all the css files referenced in the application, and puts it into a (javascript) string
                 // style-loader adds the CSS collected by css-loader and adds it to the DOM by injecting a <style> tag
-                // "use" loads in reverse order so to first load css-loader and then style-loader (or MiniCssExtractPlugin.loader) we have to do the following:
+                // "use" loads in reverse order so to first load css-loader and then MiniCssExtractPlugin.loader we have to do the following:
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
@@ -134,10 +136,3 @@ module.exports = {
         ],
     },
 };
-// const devConfig = require("./webpack.development");
-// const prodConfig = require("./webpack.production");
-
-// module.exports = merge(
-//     defaultConfig,
-//     mode === "development" ? devConfig : prodConfig
-// );
