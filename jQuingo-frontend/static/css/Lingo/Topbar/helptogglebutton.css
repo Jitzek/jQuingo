@@ -1,0 +1,26 @@
+.help-toggle-button {
+    background: none;
+    border: 2px var(--foreground-color) solid;
+    border-radius: 100%;
+    width: 32px;
+    height: 32px;
+    color: var(--foreground-color);
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    transition: background-color var(--default-animation-duration), color var(--default-animation-duration);
+}
+
+.help-toggle-button .help-toggle-button-content {
+    padding: 0;
+    margin: 0;
+    transform: translateY(-3px);
+
+    pointer-events: none;
+}
+
+.help-toggle-button:hover, .help-toggle-button:focus, .help-toggle-button:active {
+    background-color: var(--background-hover-color);
+    color: var(--foreground-hover-color);
+}

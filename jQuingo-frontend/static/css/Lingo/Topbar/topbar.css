@@ -1,0 +1,38 @@
+.topbar {
+    text-align: center;
+    min-width: 360px;
+    width: 60vw;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: 1px #FFFFFF33 solid;
+}
+
+.topbar div {
+    width: 33%;
+}
+
+.topbar .help-toggle-container {
+}
+
+.topbar .help-toggle-container span {
+    margin-top: 10px;
+}
+
+.topbar .title {
+    margin: 0;
+}
+
+.topbar .settings-toggle-container {
+
+}
+
+@media only screen and (max-width: 360px) {
+    .topbar-container {
+        min-width: 100%;
+    }
+}

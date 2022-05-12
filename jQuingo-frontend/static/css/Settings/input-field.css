@@ -1,0 +1,10 @@
+.input-field {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    border: none;
+    outline: 1px var(--foreground-color) solid;
+}
+
+.input-field:focus {
+    outline: 2px var(--foreground-color) solid;
+}

@@ -1,0 +1,29 @@
+@font-face {
+    font-family: Evolventa;
+    src: url('@fonts/Evolventa-zLXL.ttf');
+}
+
+:root {
+    --background-color: #121212;
+    --foreground-color: #E7E8E9;
+    --background-hover-color: #E7E8E9;
+    --foreground-hover-color: #121212;
+    --red: #B3574D;
+    --yellow: #B3A34D;
+    --grey: #393A3B;
+    --green: #6BAA64;
+    --default-animation-duration: 0.25s;
+    --font-family: Evolventa, sans-serif;
+}
+
+html {
+    font-size: 16px;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}

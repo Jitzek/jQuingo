@@ -1,0 +1,87 @@
+.start-button,
+.stop-button,
+.submit-button {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+    border: 1px var(--foreground-color) solid;
+    cursor: pointer;
+    height: 5rem;
+    font-size: 2rem;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 360px;
+
+    transition: background-color var(--default-animation-duration), color var(--default-animation-duration);
+}
+
+.start-button:hover,
+.start-button:focus,
+.stop-button:hover,
+.stop-button:focus,
+.submit-button:hover,
+.submit-button:focus {
+    background-color: var(--background-hover-color);
+    color: var(--foreground-hover-color);
+}
+
+.start-button {
+    display: block;
+    /* position: absolute; */
+    margin-left: auto;
+    margin-right: auto;
+    top: 35%;
+    left: 0;
+    right: 0;
+    transition: background-color var(--default-animation-duration),
+        color var(--default-animation-duration);
+
+}
+
+.stop-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    background-color: var(--red);
+}
+
+.input-field {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    background: none;
+    color: white;
+    font-family: var(--font-family);
+    height: 5rem;
+    width: 98%;
+    max-width: 360px;
+    border: 0;
+    outline: var(--foreground-color) 1px solid;
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    text-align: center;
+    transition: background-color var(--default-animation-duration);
+}
+.input-field.valid {
+    background-color: var(--green);
+}
+
+.submit-button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    background-color: var(--grey);
+}
+.submit-button.invalid,
+.submit-button.invalid:hover,
+.submit-button.invalid:focus {
+    color: var(--foreground-color);
+    background-color: var(--red);
+}
+
+
+.hidden {
+    display: none;
+}
