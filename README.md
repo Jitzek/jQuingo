@@ -1,5 +1,5 @@
 # jQuingo
-jQuery Lingo application using webpack [Github](https://github.com/Jitzek/jQuingo)
+jQuery Lingo application using webpack.
 
 NOTE: This project was a learning experience regarding webpack and jquery. Any other features in the project are experiments meant to see "what would happen if..." and "what if I...", hence they might lack quality and/or have bugs.
 
